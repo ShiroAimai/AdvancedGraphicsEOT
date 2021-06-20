@@ -3,10 +3,8 @@
 
 #include "transform.h"
 
-using namespace std;
-
-
-
+using std::cout;
+using std::endl;
 
 void check(bool condition, std::string descr ){
     std::cout << "Test " << descr << ": "
@@ -30,7 +28,6 @@ void unitTestInverse(){
     check( p0.isEqual(p1) , "INVERSE");
 }
 
-
 void unitTestCumlate(){
     Transform t1,t2;
     t1.translation = Vector3(2,0,0);
@@ -45,9 +42,6 @@ void unitTestCumlate(){
     check( q0.isEqual(q1) , "CUMULATE" );
 
 }
-
-
-
 
 int main()
 {

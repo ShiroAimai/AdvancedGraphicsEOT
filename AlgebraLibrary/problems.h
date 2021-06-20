@@ -4,6 +4,7 @@
 // problems.h:
 // a small set of matematical problems
 
+#include "pch.h"
 #include "vector3.h"
 #include "point3.h"
 #include "versor3.h"

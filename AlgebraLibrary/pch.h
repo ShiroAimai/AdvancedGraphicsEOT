@@ -10,4 +10,10 @@
 // aggiungere qui le intestazioni da precompilare
 #include "framework.h"
 
+using Scalar = double;
+
+const Scalar EPSILON = 0.0001;
+const Scalar EPSILON2 = EPSILON * EPSILON;
+
+
 #endif //PCH_H

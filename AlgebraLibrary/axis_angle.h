@@ -1,8 +1,6 @@
 #pragma once
 
 #include <math.h>
-#include "vector3.h"
-#include "point3.h"
 #include "versor3.h"
 
 /* AxisAngle class */
@@ -21,66 +19,41 @@ public:
 
 
     // TODO A-Ide: this constructor construct the identity rotation
-    AxisAngle(){}
+    AxisAngle();
 
     // TODO A-FromPoint
     // returns a AxisAngle encoding a point
-    AxisAngle( const Point3& p){
-        // TODO
-    }
+    AxisAngle(const Point3& p);
 
-    Vector3 apply( Vector3  v) const {
-        // TODO A-App: how to apply a rotation of this type?
-        return Vector3();
-    }
+    Vector3 apply(Vector3  v) const;
 
     // Rotations can be applied to versors or vectors just as well
-    Versor3 apply( Versor3 dir ) const {
-        return apply( dir.asVector() ).asVersor();
-    }
+    Versor3 apply(Versor3 dir) const;
 
-    Point3 apply( Point3 p ) const {
-        return apply( p.asVector() ).asPoint();
-    }
+    Point3 apply(Point3 p) const;
 
     // syntactic sugar: "R( p )" as a synomim of "R.apply( p )"
-    Versor3 operator() (Versor3 p) { return apply(p); }
-    Point3  operator() (Point3  p) { return apply(p); }
-    Vector3 operator() (Vector3 p) { return apply(p); }
+    Versor3 operator() (Versor3 p);
+    Point3  operator() (Point3  p);
+    Vector3 operator() (Vector3 p);
 
     Versor3 axisX() const;  // TODO A-Ax a
     Versor3 axisY() const;  // TODO A-Ax b
     Versor3 axisZ() const;  // TODO A-Ax c
 
     // conjugate
-    AxisAngle operator * (AxisAngle r) const {
-        return AxisAngle();
-    }
-
-    AxisAngle inverse() const{
-        // TODO A-Inv a
-        return AxisAngle();
-    }
-
-    void invert() const{
-        // TODO A-Inv b
-    }
+    AxisAngle operator * (AxisAngle r) const;
+    
+    AxisAngle inverse() const;
+    void invert() const;
 
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
-    static AxisAngle lookAt( Point3 eye, Point3 target, Versor3 up = Versor3::up() ){
-        // TODO A-LookAt
-        return AxisAngle();
-    }
+    static AxisAngle lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
 
     // returns a rotation
-    static AxisAngle toFrom( Versor3 to, Versor3 from ){
-        // TODO A-ToFrom
-        return AxisAngle();
-    }
+    static AxisAngle toFrom(Versor3 to, Versor3 from);
 
-    static AxisAngle toFrom( Vector3 to, Vector3 from ){
-        return toFrom( normalize(to) , normalize(from) );
-    }
+    static AxisAngle toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
     static AxisAngle from( Matrix3 m );   // TODO M2A
@@ -88,12 +61,9 @@ public:
     static AxisAngle from( Quaternion q );// TODO Q2A
 
     // does this AxisAngle encode a poont?
-    bool isPoint() const{
-        // TODO A-isP
-        return false;
-    }
+    bool isPoint() const;
 
-    void printf() const {} // TODO Print
+    void printf() const; // TODO Print
 };
 
 

@@ -165,13 +165,21 @@
     <ClInclude Include="versor3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="axis_angle.cpp" />
+    <ClCompile Include="euler.cpp" />
+    <ClCompile Include="matrix3.cpp" />
+    <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="point3.cpp" />
+    <ClCompile Include="quaternion.cpp" />
     <ClCompile Include="transform.cpp" />
+    <ClCompile Include="vector3.cpp" />
+    <ClCompile Include="versor3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

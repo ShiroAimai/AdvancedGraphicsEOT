@@ -22,28 +22,16 @@ public:
     Vector3 fowrard() { return z;}
     Vector3 backward(){ return -z;}
 
-    Versor3 apply(Versor3 d){
-        return normalize(d.x * x + d.y * y + d.z * z);
-    }
-
-    Vector3 apply(Vector3 v){
-        return v.x * x + v.y * y + v.z * z;
-    }
-
-    Point3 apply(Point3 p){
-        return o + p.x * x + p.y * y + p.z * z ;
-    }
+    Versor3 apply(Versor3 d);
+    Vector3 apply(Vector3 v);
+    Point3 apply(Point3 p);
 
     Matrix4 inverse() const;  // out-of-place
     void invert(); // in-place
 
-    Matrix4 operator * (const Matrix4 &b){
-        Matrix4 m;
-    }
+    Matrix4 operator * (const Matrix4& b);
 
-    Scalar det() const{
-        return dot( cross(x,y) , z );
-    }
+    Scalar det() const;
 
 };
 

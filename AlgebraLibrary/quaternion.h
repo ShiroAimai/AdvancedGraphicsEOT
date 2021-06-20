@@ -1,14 +1,14 @@
 #pragma once
 
 #include <math.h>
-#include "vector3.h"
-#include "point3.h"
 #include "versor3.h"
 
 /* Quaternion class */
 /* this class is a candidate to store a rotation! */
 /* as such, it implements all expected methods    */
 
+class Vector3;
+class Point3;
 class Matrix3;
 class AxisAngle;
 class Euler;
@@ -19,82 +19,48 @@ public:
     /* fields */
     // TODO Q-Fields: which fields to store? (also add a constuctor taking these fields).
 
-
-    Quaternion(Scalar a, Scalar b, Scalar c){
-        // TODO Q-Constr
-    }
-
-    // TODO Q-Ide: this constructor construct the identity rotation
-    Quaternion(){}
-
-    // TODO Q-FromPoint
-    // returns a quaternion encoding a point
-    Quaternion( const Point3& p){
-        // TODO
-    }
-
-    Vector3 apply( Vector3  v) const {
-        // TODO Q-App: how to apply a rotation of this type?
-        return Vector3();
-    }
+	// TODO Q-Ide: this constructor construct the identity rotation
+	Quaternion();
+    Quaternion(Scalar a, Scalar b, Scalar c);
+	// TODO Q-FromPoint
+	// returns a quaternion encoding a point
+    Quaternion(const Point3& p);
+   
+   
+    Vector3 apply(Vector3  v) const;
 
     // Rotations can be applied to versors or vectors just as well
-    Versor3 apply( Versor3 dir ) const {
-        return apply( dir.asVector() ).asVersor();
-    }
+    Versor3 apply(Versor3 dir) const;
 
-    Point3 apply( Point3 p ) const {
-        return apply( p.asVector() ).asPoint();
-    }
+    Point3 apply(Point3 p) const;
 
     // syntactic sugar: "R( p )" as a synomim of "R.apply( p )"
-    Versor3 operator() (Versor3 p) { return apply(p); }
-    Point3  operator() (Point3  p) { return apply(p); }
-    Vector3 operator() (Vector3 p) { return apply(p); }
+    Versor3 operator() (Versor3 p);
+    Point3  operator() (Point3  p);
+    Vector3 operator() (Vector3 p);
 
     Versor3 axisX() const;  // TODO Q-Ax a
     Versor3 axisY() const;  // TODO Q-Ax b
     Versor3 axisZ() const;  // TODO Q-Ax c
 
     // conjugate
-    Quaternion operator * (Quaternion r) const {
-        return Quaternion();
-    }
+    Quaternion operator * (Quaternion r) const;
 
-    Quaternion inverse() const{
-        // TODO Q-Inv a
-        return Quaternion();
-    }
+    Quaternion inverse() const;
 
-    void invert() const{
-        // TODO Q-Inv b
-    }
+    void invert() const;
 
     // specific methods for quaternions...
-    Quaternion conjugated() const{
-        // TODO Q-Conj a
-        return Quaternion();
-    }
-
-    void conjugate(){
-        // TODO Q-Conj b
-    }
+    Quaternion conjugated() const;
+    void conjugate();
 
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
-    static Quaternion lookAt( Point3 eye, Point3 target, Versor3 up = Versor3::up() ){
-        // TODO Q-LookAt
-        return Quaternion();
-    }
+    static Quaternion lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
 
     // returns a rotation
-    static Quaternion toFrom( Versor3 to, Versor3 from ){
-        // TODO Q-ToFrom
-        return Quaternion();
-    }
+    static Quaternion toFrom(Versor3 to, Versor3 from);
 
-    static Quaternion toFrom( Vector3 to, Vector3 from ){
-        return toFrom( normalize(to) , normalize(from) );
-    }
+    static Quaternion toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
     static Quaternion from( Matrix3 m );   // TODO M2Q
@@ -102,21 +68,14 @@ public:
     static Quaternion from( AxisAngle e ); // TODO A2Q
 
     // does this quaternion encode a rotation?
-    bool isRot() const{
-        // TODO Q-isR
-        return false;
-    }
+    bool isRot() const;
 
 
     // does this quaternion encode a poont?
-    bool isPoint() const{
-        // TODO Q-isP
-        return false;
-    }
+    bool isPoint() const;
 
-    void printf() const {} // TODO Print
+    void printf() const;// TODO Print
 };
-
 
 // interpolation or roations
 inline Quaternion lerp( const Quaternion& a,const Quaternion& b, Scalar t){
