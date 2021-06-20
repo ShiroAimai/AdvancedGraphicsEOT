@@ -2,6 +2,7 @@
 #include "vector3.h"
 #include "point3.h"
 #include "versor3.h"
+#include <assert.h>
 
 // constructors
 Vector3::Vector3() :x(0), y(0), z(0) { }
@@ -84,7 +85,11 @@ Point3 Vector3::asPoint() const
 // under my own resposability, I declare this vector to be unitary and therefore a VERSOR
 Versor3 Vector3::asVersor() const {
 	// TODO: a nice assert?
+	assert(norm(*this) == 1.0);
 	return Versor3(x, y, z);
 }
 
-void Vector3::printf() const {} // TODO Print
+void Vector3::printf() const // TODO Print
+{
+	cout << "Vector3 [x: " << x << ", " << "y: " << y << ", " << "z: " << z << "]" << endl;
+}

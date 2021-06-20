@@ -9,6 +9,10 @@
 
 // aggiungere qui le intestazioni da precompilare
 #include "framework.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 using Scalar = double;
 
