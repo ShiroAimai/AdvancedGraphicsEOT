@@ -61,4 +61,7 @@ bool Point3::isEqual(const Point3& b) {
 	return squaredNorm(*this - b) < EPSILON2;
 }
 
-void Point3::printf() const {} // TODO Print
+void Point3::printf() const // TODO Print
+{
+	cout << "Point3 [x: " << x << ", " << "y: " << y << ", " << "z: " << z << "]" << endl;
+}
