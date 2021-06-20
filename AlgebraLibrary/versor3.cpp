@@ -37,4 +37,7 @@ Vector3 Versor3::asVector() const {
 	return Vector3(x, y, z);
 }
 
-void Versor3::printf() const {} // TODO Print
+void Versor3::printf() const  // TODO Print
+{ 
+	cout << "Versor3 [x: " << x << ", " << "y: " << y << ", " << "z: " << z << "]" << endl;
+}

@@ -63,7 +63,7 @@ inline Vector3 cross(const Versor3 &a, const Versor3 &b){
 }
 
 
-inline Vector3 operator*( Scalar k, const Versor3& a){ return a*k; }
+inline Vector3 operator*( Scalar k, const Versor3& a){ return a * k; }
 
 inline Versor3 nlerp( const Versor3& a,const Versor3& b, Scalar t){
     // TODO nlerp
