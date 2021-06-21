@@ -1,6 +1,5 @@
 #pragma once
 
-#include <math.h>
 #include "versor3.h"
 
 /* Quaternion class */
@@ -18,9 +17,11 @@ public:
     
     /* fields */
     // TODO Q-Fields: which fields to store? (also add a constuctor taking these fields).
+    Scalar x, y, z, w;
 
 	// TODO Q-Ide: this constructor construct the identity rotation
 	Quaternion();
+    Quaternion(Scalar _x, Scalar _y, Scalar _z, Scalar _w);
     Quaternion(Scalar a, Scalar b, Scalar c);
 	// TODO Q-FromPoint
 	// returns a quaternion encoding a point
@@ -48,7 +49,7 @@ public:
 
     Quaternion inverse() const;
 
-    void invert() const;
+    void invert();
 
     // specific methods for quaternions...
     Quaternion conjugated() const;
@@ -70,11 +71,13 @@ public:
     // does this quaternion encode a rotation?
     bool isRot() const;
 
-
     // does this quaternion encode a poont?
     bool isPoint() const;
 
     void printf() const;// TODO Print
+
+    Scalar Magnitude() const;
+    Scalar SquaredMagnitude() const;
 };
 
 // interpolation or roations
@@ -84,5 +87,13 @@ inline Quaternion lerp( const Quaternion& a,const Quaternion& b, Scalar t){
     return Quaternion();
 }
 
+inline Quaternion normalize(const Quaternion& q)
+{
+    Scalar norm = q.Magnitude();
+    
+    if (norm <= EPSILON) return q;
+
+    return Quaternion(q.x / norm, q.y / norm, q.z / norm, q.w / norm);
+}
 
 

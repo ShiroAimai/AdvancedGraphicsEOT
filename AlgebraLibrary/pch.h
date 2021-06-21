@@ -10,6 +10,7 @@
 // aggiungere qui le intestazioni da precompilare
 #include "framework.h"
 #include <iostream>
+#include <math.h>
 
 using std::cout;
 using std::endl;

@@ -7,21 +7,34 @@
 #include "axis_angle.h"
 
 // TODO Q-Ide: this constructor construct the identity rotation
-Quaternion::Quaternion() {}
+Quaternion::Quaternion() : x(0.0), y(0.0), z(0.0), w(1.0) {}
 
-Quaternion::Quaternion(Scalar a, Scalar b, Scalar c) {
+Quaternion::Quaternion(Scalar _x, Scalar _y, Scalar _z, Scalar _w)
+	: x(_x), y(_y), z(_z), w(_w)
+{
+
+}
+
+Quaternion::Quaternion(Scalar a, Scalar b, Scalar c) : x(a), y(b), z(c), w(0.0) {
 	// TODO Q-Constr
+
 }
 
 // TODO Q-FromPoint
 // returns a quaternion encoding a point
-Quaternion::Quaternion(const Point3& p) {
+Quaternion::Quaternion(const Point3& p) : x(p.x), y(p.y), z(p.z), w(0.0) {
 	// TODO
 }
 
 Vector3 Quaternion::apply(Vector3  v) const {
 	// TODO Q-App: how to apply a rotation of this type?
-	return Vector3();
+	if (!isRot()) return v;
+
+	Quaternion PointQuat(v.asPoint());
+	Quaternion Inverse = inverse();
+	Quaternion res = *this * PointQuat * Inverse;
+
+	return Vector3(res.x, res.y, res.z);
 }
 
 // Rotations can be applied to versors or vectors just as well
@@ -55,38 +68,89 @@ Versor3 Quaternion::axisZ() const  // TODO Q-Ax c
 
 // conjugate
 Quaternion Quaternion::operator * (Quaternion r) const {
-	return Quaternion();
+	
+	Vector3 m_imm(x, y, z);
+	Vector3 r_imm(r.x, r.y, r.z);
+
+	/*Quaternion res;
+	res.w = (w * r.w) - (x * r.x) - (y * r.y) - (z * r.z);
+	res.x = (w * r.x) + (x * r.w) + (y * r.z) - (z * r.y);
+	res.y = (w * r.y) - (x * r.z) + (y * r.w) + (z * r.x);
+	res.z = (w * r.z) + (x * r.y) - (y * r.x) + (z * r.w);
+	return res;*/
+
+	Vector3 v_res = (r.w * m_imm) + (w * r_imm) + cross(m_imm, r_imm);
+	Scalar w_res = (w * r.w) - dot(m_imm, r_imm);
+	
+	return Quaternion(v_res.x, v_res.y, v_res.z, w_res);
 }
 
 Quaternion Quaternion::inverse() const {
 	// TODO Q-Inv a
-	return Quaternion();
+	if (isRot())
+	{
+		return conjugated();
+	}
+	else
+	{
+		Quaternion qInverse(*this);
+		qInverse.invert();
+		return qInverse;
+	}
 }
 
-void Quaternion::invert() const {
+void Quaternion::invert() {
 	// TODO Q-Inv b
+	conjugate();
+
+	if (!isRot())
+	{
+		Scalar sqrdMagnitude = SquaredMagnitude();
+		x /= sqrdMagnitude;
+		y /= sqrdMagnitude;
+		z /= sqrdMagnitude;
+		w /= sqrdMagnitude;
+	}
 }
 
 // specific methods for quaternions...
 Quaternion Quaternion::conjugated() const {
 	// TODO Q-Conj a
-	return Quaternion();
+	Quaternion res(*this);
+	res.conjugate();
+	return res;
 }
 
 void Quaternion::conjugate() {
 	// TODO Q-Conj b
+	x = -x;
+	y = -y;
+	z = -z;
 }
 
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
 Quaternion Quaternion::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	// TODO Q-LookAt
-	return Quaternion();
+	Versor3 Dir = normalize(target - eye);
+	Versor3 rotAxis = normalize(cross(Versor3::forward(), Dir));
+	
+	Scalar angle = acos(dot(Versor3::forward(), Dir));
+	//return from(AxisAngle())
 }
 
 // returns a rotation
 Quaternion Quaternion::toFrom(Versor3 to, Versor3 from) {
 	// TODO Q-ToFrom
-	return Quaternion();
+	Quaternion q;
+	
+	Vector3 axe = cross(from, to);
+	q.x = axe.x;
+	q.y = axe.y;
+	q.z = axe.z;
+
+	q.w = dot(from, to);
+
+	return normalize(q);
 }
 
 Quaternion Quaternion::toFrom(Vector3 to, Vector3 from) {
@@ -112,14 +176,28 @@ Quaternion Quaternion::from(AxisAngle e) // TODO A2Q
 // does this quaternion encode a rotation?
 bool Quaternion::isRot() const {
 	// TODO Q-isR
-	return false;
+	Scalar squaredQuatLength = SquaredMagnitude();
+	bool IsRot = (squaredQuatLength - 1 <= EPSILON2);
+	return IsRot;
 }
-
 
 // does this quaternion encode a poont?
 bool Quaternion::isPoint() const {
 	// TODO Q-isP
-	return false;
+	return (w <= EPSILON);
 }
 
-void Quaternion::printf() const {} // TODO Print
+void Quaternion::printf() const // TODO Print
+{
+	cout << "Q : {[" << x << ", " << y << ", " << z << "], " << w << "}" << endl;
+}
+
+Scalar Quaternion::Magnitude() const
+{
+	return sqrt(SquaredMagnitude());
+}
+
+Scalar Quaternion::SquaredMagnitude() const
+{
+	return (x * x) + (y * y) + (z * z) + (w * w);
+}

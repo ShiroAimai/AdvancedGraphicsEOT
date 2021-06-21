@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include "vector3.h"
+#include "pch.h"
 
 using Scalar = double;
 

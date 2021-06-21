@@ -12,7 +12,7 @@ Matrix3::Matrix3() : x(Versor3::right()), y(Versor3::up()), z(Versor3::forward()
 Matrix3::Matrix3(
 	Scalar m00, Scalar m01, Scalar m02,
 	Scalar m10, Scalar m11, Scalar m12,
-	Scalar m20, Scalar m21, Scalar m22) 
+	Scalar m20, Scalar m21, Scalar m22)
 	: Matrix3()
 {
 	// TODO M-Constr
@@ -22,22 +22,21 @@ Matrix3::Matrix3(
 	z = normalize(_c3);
 }
 
-Matrix3::Matrix3(Versor3 _x, Versor3 _y, Versor3 _z) : 
-x(_x), y(_y), z(_z)
+Matrix3::Matrix3(Versor3 _x, Versor3 _y, Versor3 _z) :
+	x(_x), y(_y), z(_z)
 {
 
 }
 
 Vector3 Matrix3::apply(Vector3  v) const {
 	// TODO M-App: how to apply a rotation of this type?
-	Vector3 res;
+	if (!isRot()) return v;
 	
-	if (isRot())
-	{
-		res.x = v.x * x.x + v.y * y.x + v.z * z.x;
-		res.x = v.x * x.y + v.y * y.y + v.z * z.y;
-		res.x = v.x * x.z + v.y * y.z + v.z * z.z;
-	}
+	Vector3 res;
+
+	res.x = v.x * x.x + v.y * y.x + v.z * z.x;
+	res.x = v.x * x.y + v.y * y.y + v.z * z.y;
+	res.x = v.x * x.z + v.y * y.z + v.z * z.z;
 
 	return res;
 }
@@ -105,10 +104,10 @@ void Matrix3::invert() {
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
 Matrix3 Matrix3::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	// TODO M-LookAt
-	Vector3 v = (target - eye) / norm(target - eye);
+	Versor3 v = normalize(target - eye);
 	Matrix3 rot;
-	rot.z = normalize(v);
-	rot.x = normalize(cross(Versor3::up(), rot.z) / norm(Versor3::up().asVector() - rot.z.asVector()));
+	rot.z = v;
+	rot.x = normalize(cross(Versor3::up(), rot.z));
 	rot.y = normalize(cross(rot.z, rot.x));
 
 	return rot;
@@ -160,6 +159,8 @@ Matrix3 Matrix3::rotationX(Scalar angleDeg)  // TODO M-Rx
 	XRot.y.z = sin(angleDeg);
 	XRot.z.y = -sin(angleDeg);
 	XRot.z.z = cos(angleDeg);
+
+	return XRot;
 }
 
 Matrix3 Matrix3::rotationY(Scalar angleDeg)   // TODO M-Ry
@@ -169,6 +170,8 @@ Matrix3 Matrix3::rotationY(Scalar angleDeg)   // TODO M-Ry
 	YRot.x.z = -sin(angleDeg);
 	YRot.z.x = sin(angleDeg);
 	YRot.z.z = cos(angleDeg);
+
+	return YRot;
 }
 
 Matrix3 Matrix3::rotationZ(Scalar angleDeg)   // TODO M-Rz
@@ -178,6 +181,8 @@ Matrix3 Matrix3::rotationZ(Scalar angleDeg)   // TODO M-Rz
 	ZRot.y.x = -sin(angleDeg);
 	ZRot.x.y = sin(angleDeg);
 	ZRot.y.x = cos(angleDeg);
+
+	return ZRot;
 }
 
 void Matrix3::printf() const // TODO Print
