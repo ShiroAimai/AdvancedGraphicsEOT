@@ -42,6 +42,7 @@ public:
 
 inline Versor3 normalize(Vector3 p){
     Scalar n = norm(p);
+    if (n <= (0 + EPSILON)) return p.asVersor();
     return Versor3( p.x/n, p.y/n, p.z/n );
 }
 
@@ -67,12 +68,15 @@ inline Vector3 operator*( Scalar k, const Versor3& a){ return a * k; }
 
 inline Versor3 nlerp( const Versor3& a,const Versor3& b, Scalar t){
     // TODO nlerp
-    return Versor3::up();
+    return normalize(lerp(a.asVector(), b.asVector(), t));
 }
 
 inline Versor3 slerp( const Versor3& a,const Versor3& b, Scalar t){
     // TODO slerp
-    return Versor3::up();
+    Scalar angle = acos(dot(a, b));
+    Vector3 evaluatedFirstPart = (sin((1 - t) * t) / sin(angle)) * a;
+    Vector3 evaluatedSecondPart = (sin(t * angle) / sin(angle)) * b;
+    return normalize(evaluatedFirstPart + evaluatedSecondPart);
 }
 
 

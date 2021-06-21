@@ -11,15 +11,15 @@ class Quaternion;
 class AxisAngle;
 class Euler;
 class Vector3;
-class Versor3;
 class Point3;
 
 class Matrix3{
 public:
 
     /* fields */
-    // TODO M-Fields: which fields to store? (also add a constuctor taking these fields).
 
+    // TODO M-Fields: which fields to store? (also add a constuctor taking these fields).
+    Versor3 x, y, z;
 
     // TODO M-Ide: this constructor construct the identity rotation
     Matrix3();
@@ -28,6 +28,8 @@ public:
     Matrix3(Scalar m00, Scalar m01, Scalar m02,
         Scalar m10, Scalar m11, Scalar m12,
         Scalar m20, Scalar m21, Scalar m22);
+
+    Matrix3(Versor3 _x, Versor3 _y, Versor3 _z);
 
     Vector3 apply(Vector3  v) const;
 
@@ -50,7 +52,7 @@ public:
 
     Matrix3 inverse() const;
 
-    void invert() const;
+    void invert();
 
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
     static Matrix3 lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
@@ -74,6 +76,10 @@ public:
     static Matrix3 rotationZ( Scalar angleDeg );   // TODO M-Rz
 
     void printf() const;// TODO Print
+
+    Scalar Det() const;
+private:
+    void Transpose();
 };
 
 

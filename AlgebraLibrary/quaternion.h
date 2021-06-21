@@ -15,7 +15,7 @@ class Euler;
 
 class Quaternion{
 public:
-
+    
     /* fields */
     // TODO Q-Fields: which fields to store? (also add a constuctor taking these fields).
 

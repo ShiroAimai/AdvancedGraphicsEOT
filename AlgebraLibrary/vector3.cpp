@@ -8,6 +8,11 @@
 Vector3::Vector3() :x(0), y(0), z(0) { }
 Vector3::Vector3(Scalar _x, Scalar _y, Scalar _z) :x(_x), y(_y), z(_z) { }
 
+bool Vector3::operator==(const Vector3& other) const
+{
+	return squaredNorm(*this - other) < EPSILON2;
+}
+
 // access to the coordinates: to write them
 Scalar& Vector3::operator[] (int i) {
 	if (i == 0) return x;
@@ -85,7 +90,7 @@ Point3 Vector3::asPoint() const
 // under my own resposability, I declare this vector to be unitary and therefore a VERSOR
 Versor3 Vector3::asVersor() const {
 	// TODO: a nice assert?
-	assert(norm(*this) == 1.0);
+	assert(squaredNorm(*this) - 1.0 <= EPSILON2);
 	return Versor3(x, y, z);
 }
 
