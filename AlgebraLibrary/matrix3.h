@@ -54,6 +54,11 @@ public:
 
     void invert();
 
+	// specific methods for matrix...
+	Matrix3 transposed() const;
+
+	void transpose();
+
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
     static Matrix3 lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
 
@@ -78,8 +83,6 @@ public:
     void printf() const;// TODO Print
 
     Scalar Det() const;
-private:
-    void Transpose();
 };
 
 

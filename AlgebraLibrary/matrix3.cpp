@@ -28,8 +28,6 @@ Matrix3::Matrix3(Versor3 _x, Versor3 _y, Versor3 _z) :
 
 Vector3 Matrix3::apply(Vector3  v) const {
 	// TODO M-App: how to apply a rotation of this type?
-	if (!isRot()) return v;
-	
 	Vector3 res;
 
 	res.x = v.x * x.x + v.y * y.x + v.z * z.x;
@@ -89,14 +87,12 @@ Matrix3 Matrix3::operator * (Matrix3 r) const {
 
 Matrix3 Matrix3::inverse() const {
 	// TODO M-Inv a
-	Matrix3 mTemp(x, y, z);
-	mTemp.invert();
-	return mTemp;
+	return transposed();
 }
 
 void Matrix3::invert() {
 	// TODO M-Inv b
-	Transpose();
+	transpose();
 }
 
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
@@ -149,7 +145,11 @@ Matrix3 Matrix3::from(const Quaternion& q)// TODO Q2M
 
 Matrix3 Matrix3::from(const Euler& e) // TODO E2M
 {
-	return Matrix3();
+	Matrix3 rotX = rotationX(e.Pitch);
+	Matrix3 rotY = rotationY(e.Yaw);
+	Matrix3 rotZ = rotationZ(e.Roll);
+
+	return rotZ * rotX * rotY;//zxy
 }
 
 Matrix3 Matrix3::from(const AxisAngle& e) // TODO A2M
@@ -184,11 +184,10 @@ Matrix3 Matrix3::from(const AxisAngle& e) // TODO A2M
 // does this Matrix3 encode a rotation?
 bool Matrix3::isRot() const {
 	// TODO M-isR
-	bool IsRot = false;
-	IsRot = (Det() - 1.0 < EPSILON);
-	IsRot = cross(x, y) == z.asVector();
-	IsRot = cross(x, z) == y.asVector();
-	IsRot = cross(z, y) == x.asVector();
+	bool IsRot = (abs(Det() - 1.0) < EPSILON)
+		&& cross(x, y).IsEqual(z.asVector())
+		&& cross(z, x).IsEqual(y.asVector())
+		&& cross(y, z).IsEqual(x.asVector());
 
 	return IsRot;
 }
@@ -243,7 +242,14 @@ Scalar Matrix3::Det() const
 	return dot(cross(x, y), z.asVector());
 }
 
-void Matrix3::Transpose()
+Matrix3 Matrix3::transposed() const
+{
+	Matrix3 copy(x, y, z);
+	copy.transpose();
+	return copy;
+}
+
+void Matrix3::transpose()
 {
 	Scalar tempX_Y = x.y;
 	x.y = y.x;

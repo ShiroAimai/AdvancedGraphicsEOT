@@ -9,17 +9,18 @@
 
 class Quaternion;
 class AxisAngle;
-class Euler;
+class Matrix3;
 
 class Euler{
 public:
 
     /* fields */
     // TODO E-Fields: which fields to store? (also add a constuctor taking these fields).
-
+    Scalar Pitch, Yaw, Roll; //expressed in degrees
 
     // TODO E-Ide: this constructor construct the identity rotation
     Euler();
+    Euler(Scalar _pitch, Scalar _yaw, Scalar _roll);
 
     // TODO E-Constr
     // row major order!
@@ -48,12 +49,7 @@ public:
 
     Euler inverse() const;
 
-    void invert() const;
-
-    // specific methods for Eulers...
-    Euler transposed() const;
-
-    void transpose();
+    void invert();
 
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
     static Euler lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
@@ -64,9 +60,9 @@ public:
     static Euler toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
-    static Euler from( Quaternion m );// TODO Q2M
-    static Euler from( Euler e );     // TODO E2M
-    static Euler from( AxisAngle e ); // TODO E2M
+    static Euler from(const Quaternion& m);// TODO Q2M
+    static Euler from(const Matrix3& m);     // TODO E2M
+    static Euler from(const AxisAngle& e ); // TODO E2M
 
     // does this Euler encode a rotation?
     bool isRot() const;

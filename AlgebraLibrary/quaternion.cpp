@@ -27,7 +27,6 @@ Quaternion::Quaternion(const Point3& p) : x(p.x), y(p.y), z(p.z), w(0.0) {
 
 Vector3 Quaternion::apply(Vector3  v) const {
 	// TODO Q-App: how to apply a rotation of this type?
-	if (!isRot()) return v;
 
 	Quaternion PointQuat(v.asPoint());
 	Quaternion Inverse = inverse();
@@ -201,14 +200,14 @@ Quaternion Quaternion::from(AxisAngle e) // TODO A2Q
 bool Quaternion::isRot() const {
 	// TODO Q-isR
 	Scalar squaredQuatLength = SquaredMagnitude();
-	bool IsRot = (squaredQuatLength - 1 <= EPSILON2);
+	bool IsRot = (abs(squaredQuatLength - 1) <= EPSILON2);
 	return IsRot;
 }
 
 // does this quaternion encode a poont?
 bool Quaternion::isPoint() const {
 	// TODO Q-isP
-	return (w <= EPSILON);
+	return (abs(w) <= EPSILON);
 }
 
 void Quaternion::printf() const // TODO Print

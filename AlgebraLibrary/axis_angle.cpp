@@ -83,9 +83,10 @@ AxisAngle AxisAngle::lookAt(Point3 eye, Point3 target, Versor3 up) {
 // returns a rotation
 AxisAngle AxisAngle::toFrom(Versor3 to, Versor3 from) {
 	// TODO A-ToFrom
-	Versor3 rotAxis = normalize(cross(from, to));
+	Vector3 fromToOrtho = cross(from, to);
+	Versor3 rotAxis = normalize(fromToOrtho);
 	Scalar cosine = dot(from, to);
-	Scalar angleRad = acos(cosine);
+	Scalar angleRad = atan2(norm(fromToOrtho), cosine);
 
 	return AxisAngle(rotAxis, angleRad);
 }
@@ -97,19 +98,13 @@ AxisAngle AxisAngle::toFrom(Vector3 to, Vector3 from) {
 // conversions to this representation
 AxisAngle AxisAngle::from(const Matrix3& m)  // TODO M2A
 {
-	AxisAngle res;
-	res.angle = acos((m.x.x + m.y.y + m.z.z - 1.0) / 2.0);
-	Scalar divider = sqrt(
-		((m.y.z - m.z.y) * (m.y.z - m.z.y))
-		+ ((m.z.x * m.x.z) * (m.z.x * m.x.z))
-		+ ((m.y.x * m.x.y) * (m.y.x * m.x.y))
-	);
+	const Vector3 res = Vector3((m.y.z - m.z.y), (m.z.x - m.x.z), (m.y.x - m.x.y));
 	
-	res.axis.x = (m.y.z - m.z.y) / divider;
-	res.axis.y = (m.z.x - m.x.z) / divider;
-	res.axis.z = (m.y.x - m.x.y) / divider;
+	AxisAngle axisAngleRes;
+	axisAngleRes.angle = acos((m.x.x + m.y.y + m.z.z - 1.0) / 2.0);
+	axisAngleRes.axis = normalize(res);
 
-	return res;
+	return axisAngleRes;
 }
 
 AxisAngle AxisAngle::from(const Euler& e)    // TODO E2A
@@ -137,7 +132,7 @@ AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
 // does this AxisAngle encode a poont?
 bool AxisAngle::isPoint() const {
 	// TODO A-isP
-	return (angle <= EPSILON);
+	return (abs(angle) <= EPSILON);
 }
 
 void AxisAngle::printf() const // TODO Print

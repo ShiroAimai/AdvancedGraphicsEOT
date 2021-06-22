@@ -21,7 +21,7 @@ public:
     static Vector3 forward() { return Vector3( 0, 0,+1);}
     static Vector3 backward(){ return Vector3( 0, 0,-1);}
 
-    bool operator==(const Vector3& other) const;
+    bool IsEqual(const Vector3& other) const;
 
     // access to the coordinates: to write them
     Scalar& operator[] (int i);

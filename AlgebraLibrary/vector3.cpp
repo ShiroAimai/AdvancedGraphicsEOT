@@ -8,7 +8,7 @@
 Vector3::Vector3() :x(0), y(0), z(0) { }
 Vector3::Vector3(Scalar _x, Scalar _y, Scalar _z) :x(_x), y(_y), z(_z) { }
 
-bool Vector3::operator==(const Vector3& other) const
+bool Vector3::IsEqual(const Vector3& other) const
 {
 	return squaredNorm(*this - other) < EPSILON2;
 }

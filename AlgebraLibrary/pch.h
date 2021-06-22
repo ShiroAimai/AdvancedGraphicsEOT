@@ -6,11 +6,13 @@
 
 #ifndef PCH_H
 #define PCH_H
+#define _USE_MATH_DEFINES // for C++
 
 // aggiungere qui le intestazioni da precompilare
 #include "framework.h"
-#include <iostream>
+#include <cmath>
 #include <math.h>
+#include <iostream>
 
 using std::cout;
 using std::endl;
