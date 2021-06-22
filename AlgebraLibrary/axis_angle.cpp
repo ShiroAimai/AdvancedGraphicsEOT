@@ -7,17 +7,22 @@
 #include "point3.h"
 
 // TODO A-Ide: this constructor construct the identity rotation
-AxisAngle::AxisAngle() {}
+AxisAngle::AxisAngle() : axis(Versor3::forward()), angle(0.0)
+{}
+
+AxisAngle::AxisAngle(const Versor3& _axis, Scalar _angle) : axis(_axis), angle(_angle)
+{}
 
 // TODO A-FromPoint
 // returns a AxisAngle encoding a point
-AxisAngle::AxisAngle(const Point3& p) {
+AxisAngle::AxisAngle(const Point3& p) : axis(normalize(p.asVector())), angle(0.0) {
 	// TODO
 }
 
 Vector3 AxisAngle::apply(Vector3  v) const {
 	// TODO A-App: how to apply a rotation of this type?
-	return Vector3();
+	Quaternion qFromThis = Quaternion::from(*this);
+	return qFromThis.apply(v);
 }
 
 // Rotations can be applied to versors or vectors just as well
@@ -51,28 +56,38 @@ Versor3 AxisAngle::axisZ() const  // TODO A-Ax c
 
 // conjugate
 AxisAngle AxisAngle::operator * (AxisAngle r) const {
-	return AxisAngle();
+	Quaternion qFromThis = Quaternion::from(*this);
+	Quaternion qFromR = Quaternion::from(r);
+
+	return from(qFromThis * qFromR);
 }
 
 AxisAngle AxisAngle::inverse() const {
 	// TODO A-Inv a
-	return AxisAngle();
+	AxisAngle res;
+	res.invert();
+	return res;
 }
 
-void AxisAngle::invert() const {
+void AxisAngle::invert() {
 	// TODO A-Inv b
+	axis = -axis;
 }
 
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
 AxisAngle AxisAngle::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	// TODO A-LookAt
-	return AxisAngle();
+	return from(Matrix3::lookAt(eye, target, up));
 }
 
 // returns a rotation
 AxisAngle AxisAngle::toFrom(Versor3 to, Versor3 from) {
 	// TODO A-ToFrom
-	return AxisAngle();
+	Versor3 rotAxis = normalize(cross(from, to));
+	Scalar cosine = dot(from, to);
+	Scalar angleRad = acos(cosine);
+
+	return AxisAngle(rotAxis, angleRad);
 }
 
 AxisAngle AxisAngle::toFrom(Vector3 to, Vector3 from) {
@@ -80,25 +95,52 @@ AxisAngle AxisAngle::toFrom(Vector3 to, Vector3 from) {
 }
 
 // conversions to this representation
-AxisAngle AxisAngle::from(Matrix3 m)  // TODO M2A
+AxisAngle AxisAngle::from(const Matrix3& m)  // TODO M2A
+{
+	AxisAngle res;
+	res.angle = acos((m.x.x + m.y.y + m.z.z - 1.0) / 2.0);
+	Scalar divider = sqrt(
+		((m.y.z - m.z.y) * (m.y.z - m.z.y))
+		+ ((m.z.x * m.x.z) * (m.z.x * m.x.z))
+		+ ((m.y.x * m.x.y) * (m.y.x * m.x.y))
+	);
+	
+	res.axis.x = (m.y.z - m.z.y) / divider;
+	res.axis.y = (m.z.x - m.x.z) / divider;
+	res.axis.z = (m.y.x - m.x.y) / divider;
+
+	return res;
+}
+
+AxisAngle AxisAngle::from(const Euler& e)    // TODO E2A
 {
 	return AxisAngle();
 }
 
-AxisAngle AxisAngle::from(Euler e)    // TODO E2A
+AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
 {
-	return AxisAngle();
-}
+	Quaternion val(q);
+	if (val.w > 1.0)
+		val = normalize(val);
+	
+	AxisAngle a;
+	
+	a.angle = 2.0 * acos(val.w);
+	Scalar s = sqrt(1.0 - (val.w * val.w)); // assuming quaternion normalised then w is less than 1, so term always positive.
+	Vector3 v(val.x, val.y, val.z);
 
-AxisAngle AxisAngle::from(Quaternion q)// TODO Q2A
-{
-	return AxisAngle();
+	a.axis = normalize(v / sin(a.angle / 2.0));
+	
+	return a;
 }
 
 // does this AxisAngle encode a poont?
 bool AxisAngle::isPoint() const {
 	// TODO A-isP
-	return false;
+	return (angle <= EPSILON);
 }
 
-void AxisAngle::printf() const {} // TODO Print
+void AxisAngle::printf() const // TODO Print
+{
+	cout << "AngleAxis : [{ "; axis.printf(); cout << ", " << angle << "]" << endl;
+}

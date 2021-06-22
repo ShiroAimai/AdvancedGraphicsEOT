@@ -63,9 +63,9 @@ public:
     static Matrix3 toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
-    static Matrix3 from( Quaternion m );// TODO Q2M
-    static Matrix3 from( Euler e );     // TODO E2M
-    static Matrix3 from( AxisAngle e ); // TODO A2M
+    static Matrix3 from( const Quaternion& q );// TODO Q2M
+    static Matrix3 from( const Euler& e );     // TODO E2M
+    static Matrix3 from( const AxisAngle& e ); // TODO A2M
 
     // does this Matrix3 encode a rotation?
     bool isRot() const;

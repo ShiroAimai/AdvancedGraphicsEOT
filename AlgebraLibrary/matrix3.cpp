@@ -24,9 +24,7 @@ Matrix3::Matrix3(
 
 Matrix3::Matrix3(Versor3 _x, Versor3 _y, Versor3 _z) :
 	x(_x), y(_y), z(_z)
-{
-
-}
+{}
 
 Vector3 Matrix3::apply(Vector3  v) const {
 	// TODO M-App: how to apply a rotation of this type?
@@ -107,7 +105,7 @@ Matrix3 Matrix3::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	Versor3 v = normalize(target - eye);
 	Matrix3 rot;
 	rot.z = v;
-	rot.x = normalize(cross(Versor3::up(), rot.z));
+	rot.x = normalize(cross(up, rot.z));
 	rot.y = normalize(cross(rot.z, rot.x));
 
 	return rot;
@@ -116,7 +114,13 @@ Matrix3 Matrix3::lookAt(Point3 eye, Point3 target, Versor3 up) {
 // returns a rotation
 Matrix3 Matrix3::toFrom(Versor3 to, Versor3 from) {
 	// TODO M-ToFrom
-	return Matrix3();
+	Versor3 rotAxis = normalize(cross(from, to));
+	Scalar cosine = dot(from, to);
+	Scalar angleRad = acos(cosine);
+	
+	AxisAngle _axisAngle(rotAxis, angleRad);
+	
+	return Matrix3::from(_axisAngle);
 }
 
 Matrix3 Matrix3::toFrom(Vector3 to, Vector3 from) {
@@ -124,19 +128,57 @@ Matrix3 Matrix3::toFrom(Vector3 to, Vector3 from) {
 }
 
 // conversions to this representation
-Matrix3 Matrix3::from(Quaternion m)// TODO Q2M
+Matrix3 Matrix3::from(const Quaternion& q)// TODO Q2M
+{
+	Matrix3 m;
+
+	m.x.x = 1.0 - 2.0 * (q.y * q.y) - 2.0 * (q.z * q.z);
+	m.x.y = 2.0 * (q.x * q.y) - 2.0 * (q.w * q.z);
+	m.x.z = 2.0 * (q.x * q.z) + 2.0 * (q.w * q.y);
+
+	m.y.x = 2.0 * (q.x * q.y) + 2.0 * (q.w * q.z);
+	m.y.y = 1.0 - 2.0 * (q.x * q.x) - 2.0 * (q.z * q.z);
+	m.y.z = 2.0 * (q.y * q.z) - 2.0 * (q.w * q.x);
+
+	m.z.x = 2.0 * (q.x * q.z) - 2.0 * (q.w * q.y);
+	m.z.y = 2.0 * (q.y * q.z) + 2.0 * (q.w * q.x);
+	m.z.z = 1.0 - 2.0 * (q.x * q.x) - 2.0 * (q.y * q.y);
+
+	return m;
+}
+
+Matrix3 Matrix3::from(const Euler& e) // TODO E2M
 {
 	return Matrix3();
 }
 
-Matrix3 Matrix3::from(Euler e) // TODO E2M
+Matrix3 Matrix3::from(const AxisAngle& e) // TODO A2M
 {
-	return Matrix3();
-}
+	Matrix3 m;
+	Scalar m_cos = cos(e.angle);
+	Scalar m_sin = sin(e.angle);
+	Scalar offset = 1.0 - m_cos;
 
-Matrix3 Matrix3::from(AxisAngle e) // TODO A2M
-{
-	return Matrix3();
+	m.x.x = m_cos + (e.axis.x * e.axis.x * offset);
+	m.y.y = m_cos + (e.axis.y * e.axis.y * offset);
+	m.z.z = m_cos + (e.axis.z * e.axis.z * offset);
+
+	Scalar tmp_1 = e.axis.x * e.axis.y * offset;
+	Scalar tmp_2 = e.axis.z * m_sin;
+	m.x.y = tmp_1 + tmp_2;
+	m.y.x = tmp_1 - tmp_2;
+
+	tmp_1 = e.axis.x * e.axis.z * offset;
+	tmp_2 = e.axis.y * m_sin;
+	m.x.z = tmp_1 - tmp_2;
+	m.z.x = tmp_1 + tmp_2;
+
+	tmp_1 = e.axis.y * e.axis.z * offset;
+	tmp_2 = e.axis.x * m_sin;
+	m.y.z = tmp_1 + tmp_2;
+	m.z.y = tmp_1 - tmp_2;
+
+	return m;
 }
 
 // does this Matrix3 encode a rotation?

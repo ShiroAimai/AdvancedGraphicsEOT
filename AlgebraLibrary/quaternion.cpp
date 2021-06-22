@@ -17,7 +17,6 @@ Quaternion::Quaternion(Scalar _x, Scalar _y, Scalar _z, Scalar _w)
 
 Quaternion::Quaternion(Scalar a, Scalar b, Scalar c) : x(a), y(b), z(c), w(0.0) {
 	// TODO Q-Constr
-
 }
 
 // TODO Q-FromPoint
@@ -66,8 +65,19 @@ Versor3 Quaternion::axisZ() const  // TODO Q-Ax c
 	return Versor3::right();
 }
 
+Quaternion Quaternion::operator+(const Quaternion& other) const
+{
+	Quaternion res;
+	res.x = x + other.x;
+	res.y = y + other.y;
+	res.z = z + other.z;
+	res.w = w + other.w;
+
+	return res;
+}
+
 // conjugate
-Quaternion Quaternion::operator * (Quaternion r) const {
+Quaternion Quaternion::operator * (const Quaternion& r) const {
 	
 	Vector3 m_imm(x, y, z);
 	Vector3 r_imm(r.x, r.y, r.z);
@@ -83,6 +93,17 @@ Quaternion Quaternion::operator * (Quaternion r) const {
 	Scalar w_res = (w * r.w) - dot(m_imm, r_imm);
 	
 	return Quaternion(v_res.x, v_res.y, v_res.z, w_res);
+}
+
+Quaternion Quaternion::operator*(Scalar scalar) const
+{
+	Quaternion res(*this);
+	res.x *= scalar;
+	res.x *= scalar;
+	res.x *= scalar;
+	res.x *= scalar;
+
+	return res;
 }
 
 Quaternion Quaternion::inverse() const {
@@ -135,7 +156,8 @@ Quaternion Quaternion::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	Versor3 rotAxis = normalize(cross(Versor3::forward(), Dir));
 	
 	Scalar angle = acos(dot(Versor3::forward(), Dir));
-	//return from(AxisAngle())
+	
+	return from(AxisAngle(rotAxis, angle));
 }
 
 // returns a rotation
@@ -143,12 +165,12 @@ Quaternion Quaternion::toFrom(Versor3 to, Versor3 from) {
 	// TODO Q-ToFrom
 	Quaternion q;
 	
-	Vector3 axe = cross(from, to);
-	q.x = axe.x;
-	q.y = axe.y;
-	q.z = axe.z;
+	Vector3 axis = cross(from, to);
+	q.x = axis.x;
+	q.y = axis.y;
+	q.z = axis.z;
 
-	q.w = dot(from, to);
+	q.w = dot(from, to); // sqrt((to.Length ^ 2) * (from.Length ^ 2)) + dot(to, from);
 
 	return normalize(q);
 }
@@ -160,7 +182,7 @@ Quaternion Quaternion::toFrom(Vector3 to, Vector3 from) {
 // conversions to this representation
 Quaternion Quaternion::from(Matrix3 m)   // TODO M2Q
 {
-	return Quaternion();
+	return from(AxisAngle::from(m));
 }
 
 Quaternion Quaternion::from(Euler e)     // TODO E2Q
@@ -170,7 +192,9 @@ Quaternion Quaternion::from(Euler e)     // TODO E2Q
 
 Quaternion Quaternion::from(AxisAngle e) // TODO A2Q
 {
-	return Quaternion();
+	Scalar halfSin = sin(e.angle / 2.0);
+	Vector3 axis = e.axis * halfSin;
+	return Quaternion(axis.x, axis.y, axis.z, cos(e.angle / 2.0));
 }
 
 // does this quaternion encode a rotation?

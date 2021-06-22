@@ -17,7 +17,7 @@ using std::endl;
 
 using Scalar = double;
 
-const Scalar EPSILON = 0.0001;
+const Scalar EPSILON = std::numeric_limits<Scalar>::epsilon();
 const Scalar EPSILON2 = EPSILON * EPSILON;
 
 

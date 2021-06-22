@@ -44,8 +44,11 @@ public:
     Versor3 axisY() const;  // TODO Q-Ax b
     Versor3 axisZ() const;  // TODO Q-Ax c
 
+    Quaternion operator +(const Quaternion& other) const;
+
     // conjugate
-    Quaternion operator * (Quaternion r) const;
+    Quaternion operator * (const Quaternion& r) const;
+    Quaternion operator * (Scalar scalar) const;
 
     Quaternion inverse() const;
 
@@ -80,20 +83,23 @@ public:
     Scalar SquaredMagnitude() const;
 };
 
+inline Quaternion normalize(const Quaternion& q)
+{
+	Scalar norm = q.Magnitude();
+
+	if (norm <= EPSILON) return q;
+
+	return Quaternion(q.x / norm, q.y / norm, q.z / norm, q.w / norm);
+}
+
 // interpolation or roations
 inline Quaternion lerp( const Quaternion& a,const Quaternion& b, Scalar t){
     // TODO Q-Lerp: how to interpolate quaternions
     // hints: shortest path! Also, consdider them are 4D unit vectors.
-    return Quaternion();
+    Quaternion res = (a * (1 - t)) + (b * t);
+    return normalize(res);
 }
 
-inline Quaternion normalize(const Quaternion& q)
-{
-    Scalar norm = q.Magnitude();
-    
-    if (norm <= EPSILON) return q;
 
-    return Quaternion(q.x / norm, q.y / norm, q.z / norm, q.w / norm);
-}
 
 

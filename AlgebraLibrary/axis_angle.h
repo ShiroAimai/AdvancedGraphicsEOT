@@ -16,11 +16,12 @@ public:
 
     /* fields */
     // TODO A-Field: which fields to store? (also add a constuctor taking these fields).
-
+    Versor3 axis;
+    Scalar angle;
 
     // TODO A-Ide: this constructor construct the identity rotation
     AxisAngle();
-
+    AxisAngle(const Versor3& _axis, Scalar _angle);
     // TODO A-FromPoint
     // returns a AxisAngle encoding a point
     AxisAngle(const Point3& p);
@@ -45,7 +46,7 @@ public:
     AxisAngle operator * (AxisAngle r) const;
     
     AxisAngle inverse() const;
-    void invert() const;
+    void invert();
 
     // returns a rotation to look toward target, if you are in eye, and the up-vector is up
     static AxisAngle lookAt(Point3 eye, Point3 target, Versor3 up = Versor3::up());
@@ -56,9 +57,9 @@ public:
     static AxisAngle toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
-    static AxisAngle from( Matrix3 m );   // TODO M2A
-    static AxisAngle from( Euler e );     // TODO E2A
-    static AxisAngle from( Quaternion q );// TODO Q2A
+    static AxisAngle from( const Matrix3& m );   // TODO M2A
+    static AxisAngle from( const Euler& e );     // TODO E2A
+    static AxisAngle from( const Quaternion& q );// TODO Q2A
 
     // does this AxisAngle encode a poont?
     bool isPoint() const;
@@ -71,7 +72,13 @@ public:
 inline AxisAngle lerp( const AxisAngle& a,const AxisAngle& b, Scalar t){
     // TODO A-Lerp: how to interpolate AxisAngles
     // hints: shortest path! Also, consdider them are 4D unit vectors.
-    return AxisAngle();
+    //https://math.stackexchange.com/questions/3414142/most-efficient-way-to-linearly-interpolate-rotations-expressed-as-axis-angles
+    const Vector3 aVec = a.axis * a.angle;
+    const Vector3 bVec = b.axis * b.angle;
+
+    const Vector3 res = lerp(aVec, bVec, t);
+
+    return AxisAngle(normalize(res), norm(res));
 }
 
 
