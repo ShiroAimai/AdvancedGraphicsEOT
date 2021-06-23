@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "versor3.h"
-
+#include "point3.h"
 Versor3::Versor3(Scalar _x, Scalar _y, Scalar _z) :x(_x), y(_y), z(_z)
 {
 }
@@ -40,4 +40,9 @@ Vector3 Versor3::asVector() const {
 void Versor3::printf() const  // TODO Print
 { 
 	cout << "Versor3 [x: " << x << ", " << "y: " << y << ", " << "z: " << z << "]" << endl;
+}
+
+Point3 Versor3::asPoint() const
+{
+	return Point3(x, y, z);
 }

@@ -128,17 +128,17 @@ Matrix3 Matrix3::from(const Quaternion& q)// TODO Q2M
 {
 	Matrix3 m;
 
-	m.x.x = 1.0 - 2.0 * (q.y * q.y) - 2.0 * (q.z * q.z);
-	m.x.y = 2.0 * (q.x * q.y) - 2.0 * (q.w * q.z);
-	m.x.z = 2.0 * (q.x * q.z) + 2.0 * (q.w * q.y);
+	m.x.x = 1.0 - 2.0 * (q.v.y * q.v.y) - 2.0 * (q.v.z * q.v.z);
+	m.x.y = 2.0 * (q.v.x * q.v.y) - 2.0 * (q.w * q.v.z);
+	m.x.z = 2.0 * (q.v.x * q.v.z) + 2.0 * (q.w * q.v.y);
 
-	m.y.x = 2.0 * (q.x * q.y) + 2.0 * (q.w * q.z);
-	m.y.y = 1.0 - 2.0 * (q.x * q.x) - 2.0 * (q.z * q.z);
-	m.y.z = 2.0 * (q.y * q.z) - 2.0 * (q.w * q.x);
-
-	m.z.x = 2.0 * (q.x * q.z) - 2.0 * (q.w * q.y);
-	m.z.y = 2.0 * (q.y * q.z) + 2.0 * (q.w * q.x);
-	m.z.z = 1.0 - 2.0 * (q.x * q.x) - 2.0 * (q.y * q.y);
+	m.y.x = 2.0 * (q.v.x * q.v.y) + 2.0 * (q.w * q.v.z);
+	m.y.y = 1.0 - 2.0 * (q.v.x * q.v.x) - 2.0 * (q.v.z * q.v.z);
+	m.y.z = 2.0 * (q.v.y * q.v.z) - 2.0 * (q.w * q.v.x);
+	 
+	m.z.x = 2.0 * (q.v.x * q.v.z) - 2.0 * (q.w * q.v.y);
+	m.z.y = 2.0 * (q.v.y * q.v.z) + 2.0 * (q.w * q.v.x);
+	m.z.z = 1.0 - 2.0 * (q.v.x * q.v.x) - 2.0 * (q.v.y * q.v.y);
 
 	return m;
 }

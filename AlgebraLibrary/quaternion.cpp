@@ -7,21 +7,20 @@
 #include "axis_angle.h"
 
 // TODO Q-Ide: this constructor construct the identity rotation
-Quaternion::Quaternion() : x(0.0), y(0.0), z(0.0), w(1.0) {}
+Quaternion::Quaternion() : v(Vector3(0.0, 0.0, 0.0)), w(1.0) {}
 
-Quaternion::Quaternion(Scalar _x, Scalar _y, Scalar _z, Scalar _w)
-	: x(_x), y(_y), z(_z), w(_w)
+Quaternion::Quaternion(const Vector3& _v, Scalar _w)
+	: v(_v), w(_w)
 {
-
 }
 
-Quaternion::Quaternion(Scalar a, Scalar b, Scalar c) : x(a), y(b), z(c), w(0.0) {
+Quaternion::Quaternion(Scalar a, Scalar b, Scalar c) :v(Vector3(a, b, c)), w(0.0) {
 	// TODO Q-Constr
 }
 
 // TODO Q-FromPoint
 // returns a quaternion encoding a point
-Quaternion::Quaternion(const Point3& p) : x(p.x), y(p.y), z(p.z), w(0.0) {
+Quaternion::Quaternion(const Point3& p) :v(p.asVector()), w(0.0) {
 	// TODO
 }
 
@@ -32,7 +31,7 @@ Vector3 Quaternion::apply(Vector3  v) const {
 	Quaternion Inverse = inverse();
 	Quaternion res = *this * PointQuat * Inverse;
 
-	return Vector3(res.x, res.y, res.z);
+	return res.v;
 }
 
 // Rotations can be applied to versors or vectors just as well
@@ -51,25 +50,35 @@ Vector3 Quaternion::operator() (Vector3 p) { return apply(p); }
 
 Versor3 Quaternion::axisX() const // TODO Q-Ax a
 {
-	return Versor3::right();
+	Quaternion PointQuat(Versor3::right().asPoint());
+	Quaternion Inverse = inverse();
+	Quaternion res = Inverse * PointQuat * *this;
+
+	return normalize(res.v);
 }
 
 Versor3 Quaternion::axisY() const  // TODO Q-Ax b
 {
-	return Versor3::right();
+	Quaternion PointQuat(Versor3::up().asPoint());
+	Quaternion Inverse = inverse();
+	Quaternion res = Inverse * PointQuat * *this;
+
+	return normalize(res.v);
 }
 
 Versor3 Quaternion::axisZ() const  // TODO Q-Ax c
 {
-	return Versor3::right();
+	Quaternion PointQuat(Versor3::forward().asPoint());
+	Quaternion Inverse = inverse();
+	Quaternion res = Inverse * PointQuat * *this;
+
+	return normalize(res.v);
 }
 
 Quaternion Quaternion::operator+(const Quaternion& other) const
 {
 	Quaternion res;
-	res.x = x + other.x;
-	res.y = y + other.y;
-	res.z = z + other.z;
+	res.v = v + other.v;
 	res.w = w + other.w;
 
 	return res;
@@ -78,9 +87,6 @@ Quaternion Quaternion::operator+(const Quaternion& other) const
 // conjugate
 Quaternion Quaternion::operator * (const Quaternion& r) const {
 	
-	Vector3 m_imm(x, y, z);
-	Vector3 r_imm(r.x, r.y, r.z);
-
 	/*Quaternion res;
 	res.w = (w * r.w) - (x * r.x) - (y * r.y) - (z * r.z);
 	res.x = (w * r.x) + (x * r.w) + (y * r.z) - (z * r.y);
@@ -88,19 +94,17 @@ Quaternion Quaternion::operator * (const Quaternion& r) const {
 	res.z = (w * r.z) + (x * r.y) - (y * r.x) + (z * r.w);
 	return res;*/
 
-	Vector3 v_res = (r.w * m_imm) + (w * r_imm) + cross(m_imm, r_imm);
-	Scalar w_res = (w * r.w) - dot(m_imm, r_imm);
+	Vector3 v_res = (r.w * v) + (w * r.v) + cross(v, r.v);
+	Scalar w_res = (w * r.w) - dot(v, r.v);
 	
-	return Quaternion(v_res.x, v_res.y, v_res.z, w_res);
+	return Quaternion(v_res, w_res);
 }
 
 Quaternion Quaternion::operator*(Scalar scalar) const
 {
 	Quaternion res(*this);
-	res.x *= scalar;
-	res.x *= scalar;
-	res.x *= scalar;
-	res.x *= scalar;
+	res.v *= scalar;
+	res.w *= scalar;
 
 	return res;
 }
@@ -126,9 +130,7 @@ void Quaternion::invert() {
 	if (!isRot())
 	{
 		Scalar sqrdMagnitude = SquaredMagnitude();
-		x /= sqrdMagnitude;
-		y /= sqrdMagnitude;
-		z /= sqrdMagnitude;
+		v /= sqrdMagnitude;
 		w /= sqrdMagnitude;
 	}
 }
@@ -143,9 +145,7 @@ Quaternion Quaternion::conjugated() const {
 
 void Quaternion::conjugate() {
 	// TODO Q-Conj b
-	x = -x;
-	y = -y;
-	z = -z;
+	v = -v;
 }
 
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
@@ -165,9 +165,7 @@ Quaternion Quaternion::toFrom(Versor3 to, Versor3 from) {
 	Quaternion q;
 	
 	Vector3 axis = cross(from, to);
-	q.x = axis.x;
-	q.y = axis.y;
-	q.z = axis.z;
+	q.v = Vector3(axis.x, axis.y, axis.z);
 
 	q.w = dot(from, to); // sqrt((to.Length ^ 2) * (from.Length ^ 2)) + dot(to, from);
 
@@ -179,28 +177,43 @@ Quaternion Quaternion::toFrom(Vector3 to, Vector3 from) {
 }
 
 // conversions to this representation
-Quaternion Quaternion::from(Matrix3 m)   // TODO M2Q
+Quaternion Quaternion::from(const Matrix3& m)   // TODO M2Q
 {
 	return from(AxisAngle::from(m));
 }
 
-Quaternion Quaternion::from(Euler e)     // TODO E2Q
+Quaternion Quaternion::from(const Euler& e)     // TODO E2Q
 {
-	return Quaternion();
+	return from(Matrix3::from(e));
 }
 
-Quaternion Quaternion::from(AxisAngle e) // TODO A2Q
+Quaternion Quaternion::from(const AxisAngle& e) // TODO A2Q
 {
 	Scalar halfSin = sin(e.angle / 2.0);
 	Vector3 axis = e.axis * halfSin;
-	return Quaternion(axis.x, axis.y, axis.z, cos(e.angle / 2.0));
+	return Quaternion(Vector3(axis.x, axis.y, axis.z), cos(e.angle / 2.0));
+}
+
+Quaternion Quaternion::rotationX(Scalar angleDeg)
+{
+	return from(AxisAngle::rotationX(angleDeg));
+}
+
+Quaternion Quaternion::rotationY(Scalar angleDeg)
+{
+	return from(AxisAngle::rotationY(angleDeg));
+}
+
+Quaternion Quaternion::rotationZ(Scalar angleDeg)
+{
+	return from(AxisAngle::rotationZ(angleDeg));
 }
 
 // does this quaternion encode a rotation?
 bool Quaternion::isRot() const {
 	// TODO Q-isR
 	Scalar squaredQuatLength = SquaredMagnitude();
-	bool IsRot = (abs(squaredQuatLength - 1) <= EPSILON2);
+	bool IsRot = (squaredQuatLength - 1) <= EPSILON2;
 	return IsRot;
 }
 
@@ -212,7 +225,9 @@ bool Quaternion::isPoint() const {
 
 void Quaternion::printf() const // TODO Print
 {
-	cout << "Q : {[" << x << ", " << y << ", " << z << "], " << w << "}" << endl;
+	cout << "Q : {";
+	v.printf();
+	cout << ", " << w << "}" << endl;
 }
 
 Scalar Quaternion::Magnitude() const
@@ -222,5 +237,5 @@ Scalar Quaternion::Magnitude() const
 
 Scalar Quaternion::SquaredMagnitude() const
 {
-	return (x * x) + (y * y) + (z * z) + (w * w);
+	return squaredNorm(v) + (w * w);
 }

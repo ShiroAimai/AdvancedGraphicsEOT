@@ -17,11 +17,12 @@ public:
     
     /* fields */
     // TODO Q-Fields: which fields to store? (also add a constuctor taking these fields).
-    Scalar x, y, z, w;
+    Vector3 v;
+    Scalar w;
 
 	// TODO Q-Ide: this constructor construct the identity rotation
 	Quaternion();
-    Quaternion(Scalar _x, Scalar _y, Scalar _z, Scalar _w);
+    Quaternion(const Vector3& _v, Scalar _w);
     Quaternion(Scalar a, Scalar b, Scalar c);
 	// TODO Q-FromPoint
 	// returns a quaternion encoding a point
@@ -67,9 +68,13 @@ public:
     static Quaternion toFrom(Vector3 to, Vector3 from);
 
     // conversions to this representation
-    static Quaternion from( Matrix3 m );   // TODO M2Q
-    static Quaternion from( Euler e );     // TODO E2Q
-    static Quaternion from( AxisAngle e ); // TODO A2Q
+    static Quaternion from(const Matrix3& m );   // TODO M2Q
+    static Quaternion from(const Euler& e );     // TODO E2Q
+    static Quaternion from(const AxisAngle& e ); // TODO A2Q
+
+	static Quaternion rotationX(Scalar angleDeg);   // TODO Q-Rx
+	static Quaternion rotationY(Scalar angleDeg);   // TODO Q-Ry
+	static Quaternion rotationZ(Scalar angleDeg);   // TODO Q-Rz
 
     // does this quaternion encode a rotation?
     bool isRot() const;
@@ -89,7 +94,7 @@ inline Quaternion normalize(const Quaternion& q)
 
 	if (norm <= EPSILON) return q;
 
-	return Quaternion(q.x / norm, q.y / norm, q.z / norm, q.w / norm);
+	return Quaternion(q.v / norm, q.w / norm);
 }
 
 // interpolation or roations

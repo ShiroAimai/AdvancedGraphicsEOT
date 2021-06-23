@@ -2,14 +2,13 @@
 
 #include <math.h>
 #include "versor3.h"
-
+#include "matrix3.h"
 /* Euler class */
 /* this class is a candidate to store a rotation! */
 /* as such, it implements all the expected methods    */
 
 class Quaternion;
 class AxisAngle;
-class Matrix3;
 
 class Euler{
 public:
@@ -84,7 +83,10 @@ inline Euler directLerp( const Euler& a,const Euler& b, Scalar t){
 
 inline Euler lerp( const Euler& a,const Euler& b, Scalar t){
     // TODO E-smartLerp: how to interpolate Eulers
-    return Euler();
+    Matrix3 m_a = Matrix3::from(a);
+	Matrix3 m_b = Matrix3::from(b);
+
+	return Euler::from(lerp(m_a, m_b, t));
 }
 
 

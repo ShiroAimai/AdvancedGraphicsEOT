@@ -61,12 +61,15 @@ public:
     static AxisAngle from( const Euler& e );     // TODO E2A
     static AxisAngle from( const Quaternion& q );// TODO Q2A
 
+	static AxisAngle rotationX(Scalar angleDeg);   // TODO A-Rx
+	static AxisAngle rotationY(Scalar angleDeg);   // TODO A-Ry
+	static AxisAngle rotationZ(Scalar angleDeg);   // TODO A-Rz
+
     // does this AxisAngle encode a poont?
     bool isPoint() const;
 
-    void printf() const; // TODO Print
+    void printf() const; // TODO Print    
 };
-
 
 // interpolation or roations
 inline AxisAngle lerp( const AxisAngle& a,const AxisAngle& b, Scalar t){

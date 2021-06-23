@@ -2,12 +2,12 @@
 
 #include <math.h>
 #include "versor3.h"
+#include "quaternion.h"
 
 /* Matrix3 class */
 /* this class is a candidate to store a rotation! */
 /* as such, it implements all the expected methods    */
 
-class Quaternion;
 class AxisAngle;
 class Euler;
 class Vector3;
@@ -94,7 +94,10 @@ inline Matrix3 directLerp( const Matrix3& a,const Matrix3& b, Scalar t){
 
 inline Matrix3 lerp( const Matrix3& a,const Matrix3& b, Scalar t){
     // TODO M-smartLerp: how to interpolate Matrix3s
-    return Matrix3();
+    Quaternion q_a = Quaternion::from(a);
+    Quaternion q_b = Quaternion::from(b);
+
+    return Matrix3::from(lerp(q_a, q_b, t));
 }
 
 

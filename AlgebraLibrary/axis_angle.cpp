@@ -41,17 +41,17 @@ Vector3 AxisAngle::operator() (Vector3 p) { return apply(p); }
 
 Versor3 AxisAngle::axisX() const  // TODO A-Ax a
 {
-	return Versor3::forward();
+	return Matrix3::from(*this).axisX();
 }
 
 Versor3 AxisAngle::axisY() const  // TODO A-Ax b
 {
-	return Versor3::forward();
+	return Matrix3::from(*this).axisY();
 }
 
 Versor3 AxisAngle::axisZ() const  // TODO A-Ax c
 {
-	return Versor3::forward();
+	return Matrix3::from(*this).axisZ();
 }
 
 // conjugate
@@ -109,7 +109,7 @@ AxisAngle AxisAngle::from(const Matrix3& m)  // TODO M2A
 
 AxisAngle AxisAngle::from(const Euler& e)    // TODO E2A
 {
-	return AxisAngle();
+	return from(Matrix3::from(e));
 }
 
 AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
@@ -122,11 +122,25 @@ AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
 	
 	a.angle = 2.0 * acos(val.w);
 	Scalar s = sqrt(1.0 - (val.w * val.w)); // assuming quaternion normalised then w is less than 1, so term always positive.
-	Vector3 v(val.x, val.y, val.z);
 
-	a.axis = normalize(v / sin(a.angle / 2.0));
+	a.axis = normalize(val.v / sin(a.angle / 2.0));
 	
 	return a;
+}
+
+AxisAngle AxisAngle::rotationX(Scalar angleDeg)
+{
+	return AxisAngle(Versor3::right(), DegToRad(angleDeg));
+}
+
+AxisAngle AxisAngle::rotationY(Scalar angleDeg)
+{
+	return AxisAngle(Versor3::up(), DegToRad(angleDeg));
+}
+
+AxisAngle AxisAngle::rotationZ(Scalar angleDeg)
+{
+	return AxisAngle(Versor3::forward(), DegToRad(angleDeg));
 }
 
 // does this AxisAngle encode a poont?

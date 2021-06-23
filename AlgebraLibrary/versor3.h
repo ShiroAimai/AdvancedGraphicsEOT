@@ -6,22 +6,22 @@
 
 using Scalar = double;
 
-class Versor3{
+class Versor3 {
 private:
-	friend Versor3 normalize(Vector3 p);
-	friend Versor3 Vector3::asVersor() const;
+    friend Versor3 normalize(Vector3 p);
+    friend Versor3 Vector3::asVersor() const;
 
     // constructors
     Versor3(Scalar _x, Scalar _y, Scalar _z);
 public:
-    Scalar x,y,z;
+    Scalar x, y, z;
 
-    static Versor3 right()   { return Versor3(+1, 0, 0);} // aka EAST
-    static Versor3 left()    { return Versor3(-1, 0, 0);} // aka WEST
-    static Versor3 up()      { return Versor3( 0,+1, 0);}
-    static Versor3 down()    { return Versor3( 0,-1, 0);}
-    static Versor3 forward() { return Versor3( 0, 0,+1);} // aka NORTH
-    static Versor3 backward(){ return Versor3( 0, 0,-1);} // aka SOUTH
+    static Versor3 right() { return Versor3(+1, 0, 0); } // aka EAST
+    static Versor3 left() { return Versor3(-1, 0, 0); } // aka WEST
+    static Versor3 up() { return Versor3(0, +1, 0); }
+    static Versor3 down() { return Versor3(0, -1, 0); }
+    static Versor3 forward() { return Versor3(0, 0, +1); } // aka NORTH
+    static Versor3 backward() { return Versor3(0, 0, -1); } // aka SOUTH
 
     // access to the coordinates: to write them
     Scalar& operator[] (int i);
@@ -38,6 +38,9 @@ public:
     Vector3 asVector() const;
 
     void printf() const;// TODO Print
+
+
+    Point3 asPoint() const;
 
 };
 

@@ -22,5 +22,9 @@ using Scalar = double;
 const Scalar EPSILON = std::numeric_limits<Scalar>::epsilon();
 const Scalar EPSILON2 = EPSILON * EPSILON;
 
+inline Scalar DegToRad(Scalar deg)
+{
+	return deg * (M_PI / 180.0);
+}
 
 #endif //PCH_H
