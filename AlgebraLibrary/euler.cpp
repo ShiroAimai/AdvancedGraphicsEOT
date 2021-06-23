@@ -132,7 +132,7 @@ Euler Euler::from(const Matrix3& m)     // TODO M2E
 	} 
 
 	//Check for the Gimbal Lock, give some tolerance
-	Scalar tol = 0.9999;
+	Scalar tol = 1.0 - EPSILON;
 	if (abs(sp) > tol)
 	{
 		//looking straight up or down

@@ -22,6 +22,8 @@ struct Sphere{
 
 struct Plane{
     // TODO-plane: fill
+    Point3 origin;
+    Vector3 width, height;
 };
 
 const Point3 NO_INTERSECTION(666,666,666);
@@ -41,9 +43,17 @@ Point3 intersect(const Ray &r, const Sphere &s){
     return r.p + k * r.v;
 }
 
-Point3 intersect(const Ray &r, const Plane &p){
+Point3 intersect(const Ray& r, const Plane& p) {
     // TODO: P-inter-plane
-    return Point3();
+    Vector3 planeNormal = cross(p.width, p.height);
+    Scalar divider = dot(r.v, planeNormal);
+    if (abs(divider) > EPSILON) //if ray is not ortho to plane then
+    {
+        Scalar RayDistance = (dot(-(r.p - p.origin), planeNormal)) / divider;
+		return r.p + (r.v * RayDistance);
+    }
+
+    return NO_INTERSECTION;
 }
 
 // does a eye in a given position sees the target, given the angle cone and maxDist?
