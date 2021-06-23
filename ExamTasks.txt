@@ -1,0 +1,120 @@
+Advanced Graphics Tasks Done:
+
+Vector3:
+- a nice assert?
+- Print
+
+Point3:
+- Print
+
+Versor3:
+- Print
+- nlerp
+- slerp
+
+Transform:
+
+- T-invert
+- use methods
+- T-Print
+
+Matrix3:
+
+- M-Fields: which fields to store? (also add a constuctor taking these fields).
+- M-Ide: this constructor construct the identity rotation
+- M-Constr
+- M-App
+- M-Ax a
+- M-Ax b
+- M-Ax c
+- combine two rotations (r goes first!)
+- M-Inv a
+- M-Inv b
+- M-trans a
+- M-trans b
+- M-LookAt
+- M-ToFrom (Via AxisAngle)
+- Q2M
+- A2M
+- M-isR
+- M-Rx
+- M-Ry
+- M-Rz
+- Print
+
+Quaternion:
+
+- Q-Fields: which fields to store? (also add a constuctor taking these fields).
+- Q-Ide: this constructor construct the identity rotation
+- Q-Constr
+- Q-FromPoint
+- Q-App: how to apply a rotation of this type?
+- operator *
+- Q-Inv a
+- Q-Inv b
+- Q-Conj a
+- Q-Conj b
+- Q-LookAt (Via AxisAngle)
+- Q-ToFrom
+- M2Q (via AxisAngle)
+- A2Q
+- E2Q (Via Matrix3)
+- Q-Ax a 
+- Q-Ax b
+- Q-Ax c
+- Q-isR
+- Q-isP
+- Q-Rx (via AxisAngle)
+- Q-Ry (via AxisAngle)
+- Q-Rz (via AxisAngle)
+- Print
+- Q-Lerp: how to interpolate quaternions
+
+AngleAxis:
+
+- A-Field: which fields to store? (also add a constuctor taking these fields).
+- A-Ide: this constructor construct the identity rotation
+- A-FromPoint
+- A-App: how to apply a rotation of this type? (Via Quaternion)
+- operator * (Via Quaternion)
+- A-Inv a
+- A-Inv b
+- A-LookAt (via Matrix3)
+- A-ToFrom
+- A-Ax a (via Matrix3)
+- A-Ax b (via Matrix3)
+- A-Ax c (via Matrix3)
+- E2A (Via Matrix3)
+- M2A
+- Q2A
+- A-Rx
+- A-Ry
+- A-Rz
+- A-isP
+- Print
+
+Euler:
+
+- E-Fields: which fields to store? (also add a constuctor taking these fields).
+- E-Ide: this constructor construct the identity rotation
+- E-Constr
+- E-App: how to apply a rotation of this type?
+- E-Ax a
+- E-Ax b
+- E-Ax c
+- operator *
+- E-Inv a
+- E-Inv b
+- E-LookAt
+- E-ToFrom
+- Q2E
+- M2E
+- A2E
+- E-isR
+- E-Rx 
+- E-Ry
+- E-Rz
+- A-Rx
+- A-Ry
+- A-Rz
+- Print
