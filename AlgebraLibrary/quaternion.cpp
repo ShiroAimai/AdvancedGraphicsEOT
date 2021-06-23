@@ -166,7 +166,6 @@ Quaternion Quaternion::toFrom(Versor3 to, Versor3 from) {
 	
 	Vector3 axis = cross(from, to);
 	q.v = Vector3(axis.x, axis.y, axis.z);
-
 	q.w = dot(from, to); // sqrt((to.Length ^ 2) * (from.Length ^ 2)) + dot(to, from);
 
 	return normalize(q);
@@ -189,9 +188,7 @@ Quaternion Quaternion::from(const Euler& e)     // TODO E2Q
 
 Quaternion Quaternion::from(const AxisAngle& e) // TODO A2Q
 {
-	Scalar halfSin = sin(e.angle / 2.0);
-	Vector3 axis = e.axis * halfSin;
-	return Quaternion(Vector3(axis.x, axis.y, axis.z), cos(e.angle / 2.0));
+	return Quaternion(e.axis * sin(e.angle / 2.0), cos(e.angle / 2.0));
 }
 
 Quaternion Quaternion::rotationX(Scalar angleDeg)

@@ -4,12 +4,15 @@
 #include "point3.h"
 #include "versor3.h"
 #include "quaternion.h"
+#include "axis_angle.h"
+#include "matrix3.h"
+#include "euler.h"
 
 // The BIG CHOICE:
-typedef Quaternion Rotation;
+//typedef Quaternion Rotation;
 //typedef AxisAngle Rotation;
 //typedef Matrix3 Rotation;
-//typedef Euler Rotation;
+typedef Euler Rotation;
 
 class Transform
 {

@@ -28,7 +28,7 @@ void unitTestInverse(){
     check( p0.isEqual(p1) , "INVERSE");
 }
 
-void unitTestCumlate(){
+void unitTestCumulate(){
     Transform t1,t2;
     t1.translation = Vector3(2,0,0);
     t1.scale = 4;
@@ -46,6 +46,6 @@ void unitTestCumlate(){
 int main()
 {
     unitTestInverse();
-    unitTestCumlate();
+    unitTestCumulate();
     return 0;
 }

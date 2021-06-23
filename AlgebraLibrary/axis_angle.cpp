@@ -58,8 +58,9 @@ Versor3 AxisAngle::axisZ() const  // TODO A-Ax c
 AxisAngle AxisAngle::operator * (AxisAngle r) const {
 	Quaternion qFromThis = Quaternion::from(*this);
 	Quaternion qFromR = Quaternion::from(r);
-
-	return from(qFromThis * qFromR);
+	Quaternion res = qFromThis * qFromR;
+	
+	return from(res);
 }
 
 AxisAngle AxisAngle::inverse() const {
@@ -115,17 +116,10 @@ AxisAngle AxisAngle::from(const Euler& e)    // TODO E2A
 AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
 {
 	Quaternion val(q);
-	if (val.w > 1.0)
+	if (val.w > 1.0 + EPSILON)
 		val = normalize(val);
 	
-	AxisAngle a;
-	
-	a.angle = 2.0 * acos(val.w);
-	Scalar s = sqrt(1.0 - (val.w * val.w)); // assuming quaternion normalised then w is less than 1, so term always positive.
-
-	a.axis = normalize(val.v / sin(a.angle / 2.0));
-	
-	return a;
+	return AxisAngle(normalize(val.v), 2.0 * acos(val.w));
 }
 
 AxisAngle AxisAngle::rotationX(Scalar angleDeg)

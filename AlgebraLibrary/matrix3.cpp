@@ -31,8 +31,8 @@ Vector3 Matrix3::apply(Vector3  v) const {
 	Vector3 res;
 
 	res.x = v.x * x.x + v.y * y.x + v.z * z.x;
-	res.x = v.x * x.y + v.y * y.y + v.z * z.y;
-	res.x = v.x * x.z + v.y * y.z + v.z * z.z;
+	res.y = v.x * x.y + v.y * y.y + v.z * z.y;
+	res.z = v.x * x.z + v.y * y.z + v.z * z.z;
 
 	return res;
 }
@@ -221,7 +221,7 @@ Matrix3 Matrix3::rotationZ(Scalar angleDeg)   // TODO M-Rz
 	ZRot.x.x = cos(angleDeg);
 	ZRot.y.x = -sin(angleDeg);
 	ZRot.x.y = sin(angleDeg);
-	ZRot.y.x = cos(angleDeg);
+	ZRot.y.y = cos(angleDeg);
 
 	return ZRot;
 }

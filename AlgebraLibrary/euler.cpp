@@ -72,8 +72,8 @@ Versor3 Euler::axisZ() const  // TODO E-Ax c
 Euler Euler::operator * (Euler b) const {
 	Matrix3 m_this = Matrix3::from(*this);
 	Matrix3 m_other = Matrix3::from(b);
-
-	return from(m_this * m_other);
+	Matrix3 res = m_this * m_other;
+	return from(res);
 }
 
 Euler Euler::inverse() const {
@@ -118,7 +118,7 @@ Euler Euler::from(const Matrix3& m)     // TODO M2E
 	Euler e;
 	
 	Scalar sp = -m.y.z;
-	if (sp <= 1.0)
+	if (sp <= -1.0)
 	{
 		e.Pitch = -M_PI_2;
 	}
