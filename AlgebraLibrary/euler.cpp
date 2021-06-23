@@ -132,7 +132,8 @@ Euler Euler::from(const Matrix3& m)     // TODO M2E
 	} 
 
 	//Check for the Gimbal Lock, give some tolerance
-	if (abs(sp) > 0.9999)
+	Scalar tol = 0.9999;
+	if (abs(sp) > tol)
 	{
 		//looking straight up or down
 		e.Roll = 0.0;

@@ -145,9 +145,9 @@ Matrix3 Matrix3::from(const Quaternion& q)// TODO Q2M
 
 Matrix3 Matrix3::from(const Euler& e) // TODO E2M
 {
-	Matrix3 rotX = rotationX(e.Pitch);
-	Matrix3 rotY = rotationY(e.Yaw);
-	Matrix3 rotZ = rotationZ(e.Roll);
+	const Matrix3 rotX = rotationX(e.Pitch);
+	const Matrix3 rotY = rotationY(e.Yaw);
+	const Matrix3 rotZ = rotationZ(e.Roll);
 
 	return rotZ * rotX * rotY;//zxy
 }
