@@ -30,9 +30,9 @@ Vector3 Matrix3::apply(Vector3  v) const {
 	// TODO M-App: how to apply a rotation of this type?
 	Vector3 res;
 
-	res.x = v.x * x.x + v.y * y.x + v.z * z.x;
-	res.y = v.x * x.y + v.y * y.y + v.z * z.y;
-	res.z = v.x * x.z + v.y * y.z + v.z * z.z;
+	res.x = x.x * v.x + y.x * v.y + z.x * v.z;
+	res.y = x.y * v.x + y.y * v.y + z.y * v.z;
+	res.z = x.z * v.x + y.z * v.y + z.z * v.z;
 
 	return res;
 }
@@ -110,13 +110,14 @@ Matrix3 Matrix3::lookAt(Point3 eye, Point3 target, Versor3 up) {
 // returns a rotation
 Matrix3 Matrix3::toFrom(Versor3 to, Versor3 from) {
 	// TODO M-ToFrom
-	Versor3 rotAxis = normalize(cross(from, to));
+	/*Versor3 rotAxis = normalize(cross(from, to));
 	Scalar cosine = dot(from, to);
 	Scalar angleRad = acos(cosine);
 	
 	AxisAngle _axisAngle(rotAxis, angleRad);
 	
-	return Matrix3::from(_axisAngle);
+	return Matrix3::from(_axisAngle);*/
+	return Matrix3::from(AxisAngle::toFrom(to, from));
 }
 
 Matrix3 Matrix3::toFrom(Vector3 to, Vector3 from) {
