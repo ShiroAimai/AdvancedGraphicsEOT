@@ -1,5 +1,14 @@
 Advanced Graphics Tasks Done:
 
+Problems:
+- P-inter-plane
+- plane: fill
+- P-palneNorm
+- isSeen
+- P-reflect
+- P-coplanar
+-P-ortogonalize
+
 Vector3:
 - a nice assert?
 - Print
@@ -15,7 +24,6 @@ Versor3:
 Transform:
 
 - T-invert
-- use methods
 - T-Print
 - T-lerp
 - T-place
@@ -29,7 +37,7 @@ Matrix3:
 - M-Ax a
 - M-Ax b
 - M-Ax c
-- combine two rotations (r goes first!)
+- combine two rotations (r goes first!) -> operator *
 - M-Inv a
 - M-Inv b
 - M-trans a
@@ -74,7 +82,7 @@ Quaternion:
 - Print
 - Q-Lerp: how to interpolate quaternions
 
-AngleAxis:
+AxisAngle:
 
 - A-Field: which fields to store? (also add a constuctor taking these fields).
 - A-Ide: this constructor construct the identity rotation
@@ -103,15 +111,15 @@ Euler:
 - E-Fields: which fields to store? (also add a constuctor taking these fields).
 - E-Ide: this constructor construct the identity rotation
 - E-Constr
-- E-App: how to apply a rotation of this type?
-- E-Ax a
-- E-Ax b
-- E-Ax c
-- operator *
-- E-Inv a
-- E-Inv b
-- E-LookAt
-- E-ToFrom
+- E-App: how to apply a rotation of this type? (Via Matrix3)
+- E-Ax a (Via Matrix3)
+- E-Ax b (Via Matrix3)
+- E-Ax c (Via Matrix3)
+- operator * (Via Matrix3)
+- E-Inv a(Via Matrix3)
+- E-Inv b (Via Matrix3)
+- E-LookAt (Via Matrix3)
+- E-ToFrom(Via Matrix3)
 - Q2E (Via Matrix3)
 - M2E
 - A2E (Via Matrix3)
@@ -120,4 +128,4 @@ Euler:
 - E-Ry
 - E-Rz
 - Print
-- E-smartLerp: how to interpolate Eulers (Via Matrix)
+- E-smartLerp: how to interpolate Eulers (Via Matrix3)

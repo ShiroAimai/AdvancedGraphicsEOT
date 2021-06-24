@@ -156,10 +156,7 @@ Euler Euler::from(const AxisAngle& e) // TODO A2E
 // does this Euler encode a rotation?
 bool Euler::isRot() const {
 	// TODO E-isR
-	bool IsRot = (Pitch >= 0.0 && Pitch <= 360.0)
-		&& (Yaw >= 0.0 && Yaw <= 360.0)
-		&& (Roll >= 0.0 && Roll <= 360.0);
-	return IsRot && Matrix3::from(*this).isRot();
+	return Matrix3::from(*this).isRot();
 }
 
 // return a rotation matrix around an axis

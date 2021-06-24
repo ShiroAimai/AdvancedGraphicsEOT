@@ -8,6 +8,7 @@
 #include "vector3.h"
 #include "point3.h"
 #include "versor3.h"
+#include "quaternion.h"
 
 // POD -- Plain Old Data
 struct Ray{
@@ -57,30 +58,47 @@ Point3 intersect(const Ray& r, const Plane& p) {
 }
 
 // does a eye in a given position sees the target, given the angle cone and maxDist?
-bool isSeen( const Point3 &eye, const Point3 &target, Scalar angleDeg , Scalar maxDist){
+bool isSeen(const Versor3& ViewDir, Point3& eye, const Point3& target, Scalar angleDeg, Scalar maxDist) {
     // TODO: isSeen
+    Vector3 DirToTarget = target - eye;
+    if (squaredNorm(DirToTarget) > (maxDist * maxDist)) return false; //out of  range
+    
+    Scalar halfFOV = cos(angleDeg / 2.0);
+    return dot(normalize(DirToTarget), ViewDir) > halfFOV;
 }
 
 // returns the reflected direction of something bouncing in n
 Versor3 reflect( const Versor3 &d, const Versor3 &n){
     // TODO: P-reflect
-    return Versor3::up();
+    //Solution https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+    // r = d - 2(dot(d,n)n
+    return normalize(d.asVector() - (2 * dot(d, n) * n));
 }
 
 bool areCoplanar(const Versor3 &a, const Versor3 &b, const Versor3 &c){
     // TODO: P-coplanar
+    /*Scalar cosAtoB = dot(a, b);
+    Scalar cosAtoC = dot(a, c);
+    //check they're all parallel by checking their cosine
+    return cosAtoB <= EPSILON && cosAtoC <= EPSILON;*/
+
+    return dot(a, cross(b, c)) <= EPSILON; //SCALAR TRIPLE PRODUCT https://www.youtube.com/watch?v=FENmqu40jUc
 }
 
 // normal of a plane, given three points
-Versor3 planeNormal(const Versor3 &a, const Versor3 &b, const Versor3 &c){
+Versor3 planeNormal(const Point3 &a, const Point3 &b, const Point3 &c){
     // TODO: P-palneNorm
-    return Versor3::up();
+    
+    Vector3 DirAToB = b - a;
+    Vector3 DirAToC = c - a;
+
+    return normalize(cross(DirAToB, DirAToC));
 }
 
 // return a versor as similar as possible to a, but ortogonal to b
 Versor3 orthogonalize( const Versor3 &a, const Versor3 &b ){
     // TODO: P-ortogonalize
-    return Versor3::up();
+    return normalize(cross(b, normalize(cross(a, b))));
 }
 
 // a bullet is in position pa and has velocity va
