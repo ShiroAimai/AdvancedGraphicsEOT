@@ -17,6 +17,8 @@ Transform:
 - T-invert
 - use methods
 - T-Print
+- T-lerp
+- T-place
 
 Matrix3:
 
@@ -35,12 +37,14 @@ Matrix3:
 - M-LookAt
 - M-ToFrom (Via AxisAngle)
 - Q2M
+- E2M
 - A2M
 - M-isR
 - M-Rx
 - M-Ry
 - M-Rz
 - Print
+-  M-smartLerp: how to interpolate Matrix3s (Via Quaternion)
 
 Quaternion:
 
@@ -77,13 +81,13 @@ AngleAxis:
 - A-FromPoint
 - A-App: how to apply a rotation of this type? (Via Quaternion)
 - operator * (Via Quaternion)
+- A-Ax a (via Matrix3)
+- A-Ax b (via Matrix3)
+- A-Ax c (via Matrix3)
 - A-Inv a
 - A-Inv b
 - A-LookAt (via Matrix3)
 - A-ToFrom
-- A-Ax a (via Matrix3)
-- A-Ax b (via Matrix3)
-- A-Ax c (via Matrix3)
 - E2A (Via Matrix3)
 - M2A
 - Q2A
@@ -92,6 +96,7 @@ AngleAxis:
 - A-Rz
 - A-isP
 - Print
+- A-Lerp: how to interpolate AxisAngles
 
 Euler:
 
@@ -107,14 +112,12 @@ Euler:
 - E-Inv b
 - E-LookAt
 - E-ToFrom
-- Q2E
+- Q2E (Via Matrix3)
 - M2E
-- A2E
-- E-isR
+- A2E (Via Matrix3)
+- E-isR (Partial via matrix3)
 - E-Rx 
 - E-Ry
 - E-Rz
-- A-Rx
-- A-Ry
-- A-Rz
 - Print
+- E-smartLerp: how to interpolate Eulers (Via Matrix)

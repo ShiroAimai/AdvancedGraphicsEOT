@@ -242,14 +242,14 @@ Scalar Matrix3::Det() const
 	return dot(cross(x, y), z.asVector());
 }
 
-Matrix3 Matrix3::transposed() const
+Matrix3 Matrix3::transposed() const //TODO : M-trans a
 {
 	Matrix3 copy(x, y, z);
 	copy.transpose();
 	return copy;
 }
 
-void Matrix3::transpose()
+void Matrix3::transpose() //TODO : M-trans b
 {
 	Scalar tempX_Y = x.y;
 	x.y = y.x;

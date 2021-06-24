@@ -151,12 +151,7 @@ void Quaternion::conjugate() {
 // returns a rotation to look toward target, if you are in eye, and the up-vector is up
 Quaternion Quaternion::lookAt(Point3 eye, Point3 target, Versor3 up) {
 	// TODO Q-LookAt
-	Versor3 Dir = normalize(target - eye);
-	Versor3 rotAxis = normalize(cross(Versor3::forward(), Dir));
-	
-	Scalar angle = acos(dot(Versor3::forward(), Dir));
-	
-	return from(AxisAngle(rotAxis, angle));
+	return from(Matrix3::lookAt(eye, target, up));
 }
 
 // returns a rotation

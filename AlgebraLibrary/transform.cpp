@@ -72,5 +72,7 @@ void Transform::place(Point3 origin, Point3 target, Versor3 up) {
 
 void Transform::printf() const // TODO
 {
-    rotation.printf();
+    cout << "Transform : {Translation: "; translation.printf();
+    cout << ", Rotation: "; rotation.printf();
+    cout << ", Scale: " << scale << "}" << endl;
 }

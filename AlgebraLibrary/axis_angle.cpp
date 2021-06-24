@@ -122,17 +122,17 @@ AxisAngle AxisAngle::from(const Quaternion& q)// TODO Q2A
 	return AxisAngle(normalize(val.v), 2.0 * acos(val.w));
 }
 
-AxisAngle AxisAngle::rotationX(Scalar angleDeg)
+AxisAngle AxisAngle::rotationX(Scalar angleDeg) //TODO A-Rx
 {
 	return AxisAngle(Versor3::right(), DegToRad(angleDeg));
 }
 
-AxisAngle AxisAngle::rotationY(Scalar angleDeg)
+AxisAngle AxisAngle::rotationY(Scalar angleDeg) //TODO A-Ry
 {
 	return AxisAngle(Versor3::up(), DegToRad(angleDeg));
 }
 
-AxisAngle AxisAngle::rotationZ(Scalar angleDeg)
+AxisAngle AxisAngle::rotationZ(Scalar angleDeg) //TODO : A-Rz
 {
 	return AxisAngle(Versor3::forward(), DegToRad(angleDeg));
 }

@@ -9,10 +9,10 @@
 #include "euler.h"
 
 // The BIG CHOICE:
-//typedef Quaternion Rotation;
+typedef Quaternion Rotation;
 //typedef AxisAngle Rotation;
 //typedef Matrix3 Rotation;
-typedef Euler Rotation;
+//typedef Euler Rotation;
 
 class Transform
 {
@@ -60,7 +60,12 @@ public:
 
 inline Transform lerp(const Transform& a, const Transform& b, float t) {
 	// TODO: T-lerp
+	// return (1-t)*a + t*b;
+	Transform res;
+	res.scale = ((1 - t) * a.scale) + t * b.scale;
+	res.rotation = lerp(a.rotation, b.rotation, t);
+	res.translation = lerp(a.translation, b.translation, t);
 
-	return Transform();
+	return res;
 }
 
