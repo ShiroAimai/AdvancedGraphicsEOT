@@ -9,10 +9,10 @@
 #include "euler.h"
 
 // The BIG CHOICE:
-typedef Quaternion Rotation;
+//typedef Quaternion Rotation;
 //typedef AxisAngle Rotation;
 //typedef Matrix3 Rotation;
-//typedef Euler Rotation;
+typedef Euler Rotation;
 
 class Transform
 {

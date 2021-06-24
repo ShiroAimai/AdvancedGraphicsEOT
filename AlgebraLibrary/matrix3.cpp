@@ -67,21 +67,21 @@ Versor3 Matrix3::axisZ() const  // TODO M-Ax c
 }
 
 // combine two rotations (r goes first!)
-Matrix3 Matrix3::operator * (Matrix3 r) const {
+Matrix3 Matrix3::operator * (const Matrix3& r) const {
 	Matrix3 res;
+	
 	//1 row
-	res.x.x = r.x.x * x.x + r.y.x * x.y + r.z.x * x.z;
-	res.y.x = r.x.x * y.x + r.y.x * y.y + r.z.x * y.z;
-	res.z.x = r.x.x * z.x + r.y.x * z.y + r.z.x * z.z;
+	res.x.x = x.x * r.x.x + y.x * r.x.y + z.x * r.x.z;
+	res.y.x = x.x * r.y.x + y.x * r.y.y + z.x * r.y.z;
+	res.z.x = x.x * r.z.x + y.x * r.z.y + z.x * r.z.z;
 	//2 row
-	res.x.y = r.x.y * x.x + r.y.y * x.y + r.z.y * x.z;
-	res.y.y = r.x.y * y.x + r.y.y * y.y + r.z.y * y.z;
-	res.z.y = r.x.y * z.x + r.y.y * z.y + r.z.y * z.z;
+	res.x.y = x.y * r.x.x + y.y * r.x.y + z.y * r.x.z;
+	res.y.y = x.y * r.y.x + y.y * r.y.y + z.y * r.y.z;
+	res.z.y = x.y * r.z.x + y.y * r.z.y + z.y * r.z.z;
 	//3 row
-	res.x.z = r.x.z * x.z + r.y.z * x.y + r.z.z * x.z;
-	res.y.z = r.x.z * y.z + r.y.z * y.y + r.z.z * y.z;
-	res.z.z = r.x.z * z.z + r.y.z * z.y + r.z.z * z.z;
-
+	res.x.z = x.z * r.x.z + y.z * r.x.y + z.z * r.x.z;
+	res.y.z = x.z * r.y.z + y.z * r.y.y + z.z * r.y.z;
+	res.z.z = x.z * r.z.z + y.z * r.z.y + z.z * r.z.z;
 	return res;
 }
 
@@ -149,7 +149,7 @@ Matrix3 Matrix3::from(const Euler& e) // TODO E2M
 	const Matrix3 rotY = rotationY(e.Yaw);
 	const Matrix3 rotZ = rotationZ(e.Roll);
 
-	return rotZ * rotX * rotY;//zxy
+	return rotZ * (rotX * rotY);//zxy
 }
 
 Matrix3 Matrix3::from(const AxisAngle& e) // TODO A2M

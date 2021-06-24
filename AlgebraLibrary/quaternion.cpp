@@ -157,13 +157,7 @@ Quaternion Quaternion::lookAt(Point3 eye, Point3 target, Versor3 up) {
 // returns a rotation
 Quaternion Quaternion::toFrom(Versor3 to, Versor3 from) {
 	// TODO Q-ToFrom
-	Quaternion q;
-	
-	Vector3 axis = cross(from, to);
-	q.v = Vector3(axis.x, axis.y, axis.z);
-	q.w = dot(from, to); // sqrt((to.Length ^ 2) * (from.Length ^ 2)) + dot(to, from);
-
-	return normalize(q);
+	return Quaternion::from(AxisAngle::toFrom(to, from));
 }
 
 Quaternion Quaternion::toFrom(Vector3 to, Vector3 from) {
@@ -205,7 +199,7 @@ Quaternion Quaternion::rotationZ(Scalar angleDeg)
 bool Quaternion::isRot() const {
 	// TODO Q-isR
 	Scalar squaredQuatLength = SquaredMagnitude();
-	bool IsRot = (squaredQuatLength - 1) <= EPSILON2;
+	bool IsRot = abs((squaredQuatLength - 1)) <= EPSILON2;
 	return IsRot;
 }
 

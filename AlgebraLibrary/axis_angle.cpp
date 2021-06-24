@@ -143,7 +143,7 @@ bool AxisAngle::isPoint() const {
 	return (abs(angle) <= EPSILON);
 }
 
-bool AxisAngle::IsRot() const
+bool AxisAngle::isRot() const
 {
 	return !isPoint();
 }

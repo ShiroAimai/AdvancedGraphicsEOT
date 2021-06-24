@@ -48,7 +48,7 @@ public:
     Versor3 axisZ() const;  // TODO M-Ax c
 
     // combine two rotations (r goes first!)
-    Matrix3 operator * (Matrix3 r) const;
+    Matrix3 operator * (const Matrix3& r) const;
 
     Matrix3 inverse() const;
 
