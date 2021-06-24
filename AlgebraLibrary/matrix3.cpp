@@ -195,33 +195,36 @@ bool Matrix3::isRot() const {
 // return a rotation matrix around an axis
 Matrix3 Matrix3::rotationX(Scalar angleDeg)  // TODO M-Rx
 {
+	Scalar angleRad = DegToRad(angleDeg);
 	Matrix3 XRot;
-	XRot.y.y = cos(DegToRad(angleDeg));
-	XRot.y.z = sin(DegToRad(angleDeg));
-	XRot.z.y = -sin(DegToRad(angleDeg));
-	XRot.z.z = cos(DegToRad(angleDeg));
+	XRot.y.y = cos(angleRad);
+	XRot.y.z = sin(angleRad);
+	XRot.z.y = -sin(angleRad);
+	XRot.z.z = cos(angleRad);
 
 	return XRot;
 }
 
 Matrix3 Matrix3::rotationY(Scalar angleDeg)   // TODO M-Ry
 {
+	Scalar angleRad = DegToRad(angleDeg);
 	Matrix3 YRot;
-	YRot.x.x = cos(DegToRad(angleDeg));
-	YRot.x.z = -sin(DegToRad(angleDeg));
-	YRot.z.x = sin(DegToRad(angleDeg));
-	YRot.z.z = cos(DegToRad(angleDeg));
+	YRot.x.x = cos(angleRad);
+	YRot.x.z = -sin(angleRad);
+	YRot.z.x = sin(angleRad);
+	YRot.z.z = cos(angleRad);
 
 	return YRot;
 }
 
 Matrix3 Matrix3::rotationZ(Scalar angleDeg)   // TODO M-Rz
 {
+	Scalar angleRad = DegToRad(angleDeg);
 	Matrix3 ZRot;
-	ZRot.x.x = cos(DegToRad(angleDeg));
-	ZRot.y.x = -sin(DegToRad(angleDeg));
-	ZRot.x.y = sin(DegToRad(angleDeg));
-	ZRot.y.y = cos(DegToRad(angleDeg));
+	ZRot.x.x = cos(angleRad);
+	ZRot.y.x = -sin(angleRad);
+	ZRot.x.y = sin(angleRad);
+	ZRot.y.y = cos(angleRad);
 
 	return ZRot;
 }
