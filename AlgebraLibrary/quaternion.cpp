@@ -50,29 +50,17 @@ Vector3 Quaternion::operator() (Vector3 p) { return apply(p); }
 
 Versor3 Quaternion::axisX() const // TODO Q-Ax a
 {
-	Quaternion PointQuat(Versor3::right().asPoint());
-	Quaternion Inverse = inverse();
-	Quaternion res = Inverse * PointQuat * *this;
-
-	return normalize(res.v);
+	return inverse().apply(Versor3::right());
 }
 
 Versor3 Quaternion::axisY() const  // TODO Q-Ax b
 {
-	Quaternion PointQuat(Versor3::up().asPoint());
-	Quaternion Inverse = inverse();
-	Quaternion res = Inverse * PointQuat * *this;
-
-	return normalize(res.v);
+	return inverse().apply(Versor3::up());
 }
 
 Versor3 Quaternion::axisZ() const  // TODO Q-Ax c
 {
-	Quaternion PointQuat(Versor3::forward().asPoint());
-	Quaternion Inverse = inverse();
-	Quaternion res = Inverse * PointQuat * *this;
-
-	return normalize(res.v);
+	return inverse().apply(Versor3::forward());
 }
 
 Quaternion Quaternion::operator+(const Quaternion& other) const
