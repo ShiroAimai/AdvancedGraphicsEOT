@@ -120,15 +120,15 @@ Euler Euler::from(const Matrix3& m)     // TODO M2E
 	Scalar sp = -m.y.z;
 	if (sp <= -1.0)
 	{
-		e.Pitch = -M_PI_2;
+		e.Pitch = RadToDeg(-M_PI_2);
 	}
 	else if (sp >= 1.0)
 	{
-		e.Pitch = M_PI_2;
+		e.Pitch = RadToDeg(M_PI_2);
 	}
 	else 
 	{
-		e.Pitch = asin(sp);
+		e.Pitch = RadToDeg(asin(sp));
 	} 
 
 	//Check for the Gimbal Lock, give some tolerance
@@ -137,12 +137,12 @@ Euler Euler::from(const Matrix3& m)     // TODO M2E
 	{
 		//looking straight up or down
 		e.Roll = 0.0;
-		e.Yaw = atan2(-m.z.y, m.x.x);
+		e.Yaw = RadToDeg(atan2(-m.z.y, m.x.x));
 	}
 	else
 	{
-		e.Yaw = atan2(m.x.z, m.z.z);
-		e.Roll = atan2(m.y.x, m.y.y);
+		e.Yaw = RadToDeg(atan2(m.x.z, m.z.z));
+		e.Roll = RadToDeg(atan2(m.y.x, m.y.y));
 	}
 
 	return e;

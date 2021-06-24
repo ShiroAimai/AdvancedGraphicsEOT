@@ -143,6 +143,11 @@ bool AxisAngle::isPoint() const {
 	return (abs(angle) <= EPSILON);
 }
 
+bool AxisAngle::IsRot() const
+{
+	return !isPoint();
+}
+
 void AxisAngle::printf() const // TODO Print
 {
 	cout << "AngleAxis : [{ "; axis.printf(); cout << ", " << angle << "]" << endl;

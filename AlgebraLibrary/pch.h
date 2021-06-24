@@ -27,4 +27,9 @@ inline Scalar DegToRad(Scalar deg)
 	return deg * (M_PI / 180.0);
 }
 
+inline Scalar RadToDeg(Scalar rad)
+{
+	return rad * (180.0 / M_PI);
+}
+
 #endif //PCH_H

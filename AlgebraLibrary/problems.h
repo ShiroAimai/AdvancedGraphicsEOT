@@ -63,7 +63,7 @@ bool isSeen(const Versor3& ViewDir, Point3& eye, const Point3& target, Scalar an
     Vector3 DirToTarget = target - eye;
     if (squaredNorm(DirToTarget) > (maxDist * maxDist)) return false; //out of  range
     
-    Scalar halfFOV = cos(angleDeg / 2.0);
+    Scalar halfFOV = cos(DegToRad(angleDeg) / 2.0);
     return dot(normalize(DirToTarget), ViewDir) > halfFOV;
 }
 

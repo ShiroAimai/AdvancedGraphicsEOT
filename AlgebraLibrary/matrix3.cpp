@@ -127,7 +127,7 @@ Matrix3 Matrix3::toFrom(Vector3 to, Vector3 from) {
 Matrix3 Matrix3::from(const Quaternion& q)// TODO Q2M
 {
 	Matrix3 m;
-
+	
 	m.x.x = 1.0 - 2.0 * (q.v.y * q.v.y) - 2.0 * (q.v.z * q.v.z);
 	m.x.y = 2.0 * (q.v.x * q.v.y) - 2.0 * (q.w * q.v.z);
 	m.x.z = 2.0 * (q.v.x * q.v.z) + 2.0 * (q.w * q.v.y);
@@ -196,10 +196,10 @@ bool Matrix3::isRot() const {
 Matrix3 Matrix3::rotationX(Scalar angleDeg)  // TODO M-Rx
 {
 	Matrix3 XRot;
-	XRot.y.y = cos(angleDeg);
-	XRot.y.z = sin(angleDeg);
-	XRot.z.y = -sin(angleDeg);
-	XRot.z.z = cos(angleDeg);
+	XRot.y.y = cos(DegToRad(angleDeg));
+	XRot.y.z = sin(DegToRad(angleDeg));
+	XRot.z.y = -sin(DegToRad(angleDeg));
+	XRot.z.z = cos(DegToRad(angleDeg));
 
 	return XRot;
 }
@@ -207,10 +207,10 @@ Matrix3 Matrix3::rotationX(Scalar angleDeg)  // TODO M-Rx
 Matrix3 Matrix3::rotationY(Scalar angleDeg)   // TODO M-Ry
 {
 	Matrix3 YRot;
-	YRot.x.x = cos(angleDeg);
-	YRot.x.z = -sin(angleDeg);
-	YRot.z.x = sin(angleDeg);
-	YRot.z.z = cos(angleDeg);
+	YRot.x.x = cos(DegToRad(angleDeg));
+	YRot.x.z = -sin(DegToRad(angleDeg));
+	YRot.z.x = sin(DegToRad(angleDeg));
+	YRot.z.z = cos(DegToRad(angleDeg));
 
 	return YRot;
 }
@@ -218,10 +218,10 @@ Matrix3 Matrix3::rotationY(Scalar angleDeg)   // TODO M-Ry
 Matrix3 Matrix3::rotationZ(Scalar angleDeg)   // TODO M-Rz
 {
 	Matrix3 ZRot;
-	ZRot.x.x = cos(angleDeg);
-	ZRot.y.x = -sin(angleDeg);
-	ZRot.x.y = sin(angleDeg);
-	ZRot.y.y = cos(angleDeg);
+	ZRot.x.x = cos(DegToRad(angleDeg));
+	ZRot.y.x = -sin(DegToRad(angleDeg));
+	ZRot.x.y = sin(DegToRad(angleDeg));
+	ZRot.y.y = cos(DegToRad(angleDeg));
 
 	return ZRot;
 }

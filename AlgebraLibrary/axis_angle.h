@@ -68,6 +68,8 @@ public:
     // does this AxisAngle encode a poont?
     bool isPoint() const;
 
+    bool IsRot() const;
+
     void printf() const; // TODO Print    
 };
 
