@@ -101,6 +101,7 @@ inline Quaternion normalize(const Quaternion& q)
 inline Quaternion lerp( const Quaternion& a,const Quaternion& b, Scalar t){
     // TODO Q-Lerp: how to interpolate quaternions
     // hints: shortest path! Also, consdider them are 4D unit vectors.
+    //TODO : check which -q or q is the closest one
     Quaternion res = (a * (1 - t)) + (b * t);
     return normalize(res);
 }

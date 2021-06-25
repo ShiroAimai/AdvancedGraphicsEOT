@@ -99,28 +99,12 @@ Quaternion Quaternion::operator*(Scalar scalar) const
 
 Quaternion Quaternion::inverse() const {
 	// TODO Q-Inv a
-	if (isRot())
-	{
-		return conjugated();
-	}
-	else
-	{
-		Quaternion qInverse(*this);
-		qInverse.invert();
-		return qInverse;
-	}
+	return conjugated();
 }
 
 void Quaternion::invert() {
 	// TODO Q-Inv b
 	conjugate();
-
-	if (!isRot())
-	{
-		Scalar sqrdMagnitude = SquaredMagnitude();
-		v /= sqrdMagnitude;
-		w /= sqrdMagnitude;
-	}
 }
 
 // specific methods for quaternions...

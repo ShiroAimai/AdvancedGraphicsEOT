@@ -1,6 +1,5 @@
 #pragma once
 
-#include <math.h>
 #include "versor3.h"
 #include "quaternion.h"
 
@@ -89,7 +88,13 @@ public:
 // interpolation of roations
 inline Matrix3 directLerp( const Matrix3& a,const Matrix3& b, Scalar t){
     // TODO M-directLerp: how to interpolate Matrix3s
-    return Matrix3();
+    Matrix3 res;
+
+    res.x = normalize(lerp(a.x.asVector(), b.x.asVector(), t));
+    res.y = normalize(lerp(a.y.asVector(), b.y.asVector(), t));
+    res.z = normalize(lerp(a.z.asVector(), b.z.asVector(), t));
+
+    return res;
 }
 
 inline Matrix3 lerp( const Matrix3& a,const Matrix3& b, Scalar t){

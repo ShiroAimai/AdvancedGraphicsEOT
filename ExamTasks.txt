@@ -8,6 +8,7 @@ Problems:
 - P-reflect
 - P-coplanar
 -P-ortogonalize
+-P-hitPos
 
 Vector3:
 - a nice assert?
@@ -53,6 +54,7 @@ Matrix3:
 - M-Rz
 - Print
 -  M-smartLerp: how to interpolate Matrix3s (Via Quaternion)
+- M-directLerp
 
 Quaternion:
 
@@ -104,7 +106,8 @@ AxisAngle:
 - A-Rz
 - A-isP
 - Print
-- A-Lerp: how to interpolate AxisAngles
+- A-Lerp
+- A-Lerp2
 
 Euler:
 
@@ -129,3 +132,4 @@ Euler:
 - E-Rz
 - Print
 - E-smartLerp: how to interpolate Eulers (Via Matrix3)
+- E-directLerp

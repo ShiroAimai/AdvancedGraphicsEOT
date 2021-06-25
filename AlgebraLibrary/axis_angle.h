@@ -1,6 +1,5 @@
 #pragma once
 
-#include <math.h>
 #include "versor3.h"
 
 /* AxisAngle class */
@@ -86,6 +85,14 @@ inline AxisAngle lerp( const AxisAngle& a,const AxisAngle& b, Scalar t){
     return AxisAngle(normalize(res), norm(res));
 }
 
+inline AxisAngle lerp2(const AxisAngle& a, const AxisAngle& b, Scalar t) {
+    AxisAngle res;
+
+    res.axis = slerp(a.axis, b.axis, t);
+    res.angle = (1 - t) * a.angle + b.angle * t;
+
+    return res;
+}
 
 
 

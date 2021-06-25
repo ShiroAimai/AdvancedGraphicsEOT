@@ -1,8 +1,7 @@
 #pragma once
 
-#include <math.h>
-#include "vector3.h"
 #include "pch.h"
+#include "vector3.h"
 
 using Scalar = double;
 

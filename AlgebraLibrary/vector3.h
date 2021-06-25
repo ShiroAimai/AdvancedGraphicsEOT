@@ -1,5 +1,4 @@
 #pragma once
-#include <math.h>
 
 class Point3; // prometto che esiste una classe Point3 da qualche parte
 class Versor3;

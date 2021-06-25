@@ -78,7 +78,13 @@ public:
 // interpolation or roations
 inline Euler directLerp( const Euler& a,const Euler& b, Scalar t){
     // TODO E-directLerp: how to interpolate Eulers
-    return Euler();
+    Euler res;
+
+    res.Pitch = (1 - t) * a.Pitch + t * a.Pitch;
+    res.Yaw = (1 - t) * a.Yaw + t * a.Yaw;
+    res.Roll = (1 - t) * a.Roll + t * a.Roll;
+
+    return res;
 }
 
 inline Euler lerp( const Euler& a,const Euler& b, Scalar t){
@@ -88,5 +94,3 @@ inline Euler lerp( const Euler& a,const Euler& b, Scalar t){
 
 	return Euler::from(lerp(m_a, m_b, t));
 }
-
-

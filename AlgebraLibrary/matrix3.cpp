@@ -110,13 +110,6 @@ Matrix3 Matrix3::lookAt(Point3 eye, Point3 target, Versor3 up) {
 // returns a rotation
 Matrix3 Matrix3::toFrom(Versor3 to, Versor3 from) {
 	// TODO M-ToFrom
-	/*Versor3 rotAxis = normalize(cross(from, to));
-	Scalar cosine = dot(from, to);
-	Scalar angleRad = acos(cosine);
-	
-	AxisAngle _axisAngle(rotAxis, angleRad);
-	
-	return Matrix3::from(_axisAngle);*/
 	return Matrix3::from(AxisAngle::toFrom(to, from));
 }
 
@@ -150,7 +143,7 @@ Matrix3 Matrix3::from(const Euler& e) // TODO E2M
 	const Matrix3 rotY = rotationY(e.Yaw);
 	const Matrix3 rotZ = rotationZ(e.Roll);
 
-	return rotZ * (rotX * rotY);//zxy
+	return rotZ * rotX * rotY;//z * x * y
 }
 
 Matrix3 Matrix3::from(const AxisAngle& e) // TODO A2M

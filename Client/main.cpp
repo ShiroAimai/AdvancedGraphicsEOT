@@ -48,7 +48,7 @@ void unitTestToFrom() {
 
     Vector3 Mat = Matrix3::toFrom(to, from).apply(from);
 	Vector3 Eul = Euler::toFrom(to, from).apply(from);
-	Vector3 Quat = Quaternion::toFrom(to, from).apply(from);
+    Vector3 Quat = Quaternion::toFrom(to, from).apply(from);
 	Vector3 AxisAngle = AxisAngle::toFrom(to, from).apply(from);
 
 	check(Eul.IsEqual(AxisAngle), "FROM Eul TO AxisAngle");
@@ -58,6 +58,7 @@ void unitTestToFrom() {
 	check(Eul.IsEqual(Quat), "FROM Eul TO Quat");
 	check(Eul.IsEqual(Mat), "FROM Eul TO Mat");
 
+    //todo check to == fromRes
 }
 
 void unitTestIsRot() {
@@ -80,13 +81,13 @@ void unitTestIsRot() {
     );
     Matrix3 mRot;
 
-	check(mNotRot.isRot() == false, "Matrix3 is not Rot");
+	check(mNotRot.isRot() == false, "Matrix3 is not a Rot");
 	check(mRot.isRot() == true, "Matrix3 is Rot");
 	
-    Euler eNotRot = Euler::from(mNotRot);
 	Euler eRot(0, 30, 0);
+	Euler eStillRot = Euler::from(mNotRot);
 
-	check(eNotRot.isRot() == false, "Euler is not Rot");
+	check(eStillRot.isRot() == true, "Euler is still a Rot");
 	check(eRot.isRot() == true, "Euler is Rot");
 }
 
@@ -113,6 +114,6 @@ int main()
     unitTestCumulate();
     unitTestIsRot();
     unitTestConversionBetweenRepresentations();
-    unitTestToFrom();
+    //unitTestToFrom();
     return 0;
 }

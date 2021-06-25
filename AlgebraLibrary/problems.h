@@ -106,7 +106,10 @@ Versor3 orthogonalize( const Versor3 &a, const Versor3 &b ){
 // returns the position of the target in the moment it is closest to the bullet
 Point3 hitPos( const Point3 &pa, const Vector3 &va, const Point3 &pb, const Vector3 &vb ){
     // TODO: P-hitPos
-    return Point3();
+    Scalar sqrNorm = squaredNorm(vb - va);
+    Scalar t = -dot((pb - pa), (vb - va)) / sqrNorm;
+
+    return pb + (t * vb);
 }
 
 
