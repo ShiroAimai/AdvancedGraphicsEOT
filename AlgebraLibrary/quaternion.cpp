@@ -28,8 +28,8 @@ Vector3 Quaternion::apply(Vector3  v) const {
 	// TODO Q-App: how to apply a rotation of this type?
 
 	Quaternion PointQuat(v.asPoint());
-	Quaternion Inverse = inverse();
-	Quaternion res = *this * PointQuat * Inverse;
+	Quaternion QuatConjugated = conjugated();
+	Quaternion res = *this * PointQuat * QuatConjugated;
 
 	return res.v;
 }
