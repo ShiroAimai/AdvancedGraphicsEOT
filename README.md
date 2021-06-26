@@ -1,6 +1,14 @@
 # AdvancedGraphicsEOT
 
+Developed by Nicola Cisternino for the Advanced Graphics course end of term project.
 
+## Project Structure
+
+* **Client**: A client that will execute all provided unit tests against the library classes;
+* **AlgebraLibrary**: A c++ algebra library that includes structures and classes for rotations
+and transform.
+  
+**IMPORTANT NOTES**: To execute the project set **Client** as startup project!
 
 Notes:
 
