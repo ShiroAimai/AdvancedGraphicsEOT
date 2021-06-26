@@ -1,0 +1,135 @@
+Advanced Graphics Tasks Done:
+
+Problems:
+- P-inter-plane
+- plane: fill
+- P-palneNorm
+- isSeen
+- P-reflect
+- P-coplanar
+-P-ortogonalize
+-P-hitPos
+
+Vector3:
+- a nice assert?
+- Print
+
+Point3:
+- Print
+
+Versor3:
+- Print
+- nlerp
+- slerp
+
+Transform:
+
+- T-invert
+- T-Print
+- T-lerp
+- T-place
+
+Matrix3:
+
+- M-Fields: which fields to store? (also add a constuctor taking these fields).
+- M-Ide: this constructor construct the identity rotation
+- M-Constr
+- M-App
+- M-Ax a
+- M-Ax b
+- M-Ax c
+- combine two rotations (r goes first!) -> operator *
+- M-Inv a
+- M-Inv b
+- M-trans a
+- M-trans b
+- M-LookAt
+- M-ToFrom (Via AxisAngle)
+- Q2M
+- E2M
+- A2M
+- M-isR
+- M-Rx
+- M-Ry
+- M-Rz
+- Print
+-  M-smartLerp: how to interpolate Matrix3s (Via Quaternion)
+- M-directLerp
+
+Quaternion:
+
+- Q-Fields: which fields to store? (also add a constuctor taking these fields).
+- Q-Ide: this constructor construct the identity rotation
+- Q-Constr
+- Q-FromPoint
+- Q-App: how to apply a rotation of this type?
+- operator *
+- Q-Inv a
+- Q-Inv b
+- Q-Conj a
+- Q-Conj b
+- Q-LookAt (Via AxisAngle)
+- Q-ToFrom
+- M2Q (via AxisAngle)
+- A2Q
+- E2Q (Via Matrix3)
+- Q-Ax a 
+- Q-Ax b
+- Q-Ax c
+- Q-isR
+- Q-isP
+- Q-Rx (via AxisAngle)
+- Q-Ry (via AxisAngle)
+- Q-Rz (via AxisAngle)
+- Print
+- Q-Lerp: how to interpolate quaternions
+
+AxisAngle:
+
+- A-Field: which fields to store? (also add a constuctor taking these fields).
+- A-Ide: this constructor construct the identity rotation
+- A-FromPoint
+- A-App: how to apply a rotation of this type? (Via Quaternion)
+- operator * (Via Quaternion)
+- A-Ax a (via Matrix3)
+- A-Ax b (via Matrix3)
+- A-Ax c (via Matrix3)
+- A-Inv a
+- A-Inv b
+- A-LookAt (via Matrix3)
+- A-ToFrom
+- E2A (Via Matrix3)
+- M2A
+- Q2A
+- A-Rx
+- A-Ry
+- A-Rz
+- A-isP
+- Print
+- A-Lerp
+- A-Lerp2
+
+Euler:
+
+- E-Fields: which fields to store? (also add a constuctor taking these fields).
+- E-Ide: this constructor construct the identity rotation
+- E-Constr
+- E-App: how to apply a rotation of this type? (Via Matrix3)
+- E-Ax a (Via Matrix3)
+- E-Ax b (Via Matrix3)
+- E-Ax c (Via Matrix3)
+- operator * (Via Matrix3)
+- E-Inv a(Via Matrix3)
+- E-Inv b (Via Matrix3)
+- E-LookAt (Via Matrix3)
+- E-ToFrom(Via Matrix3)
+- Q2E (Via Matrix3)
+- M2E
+- A2E (Via Matrix3)
+- E-isR (Partial via matrix3)
+- E-Rx 
+- E-Ry
+- E-Rz
+- Print
+- E-smartLerp: how to interpolate Eulers (Via Matrix3)
+- E-directLerp
