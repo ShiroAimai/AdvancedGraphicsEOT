@@ -102,12 +102,6 @@ void unitTestIsRot() {
 
 void unitTestConversionBetweenRepresentations()
 {
-    Euler e(10, 0, 0);    
-    Euler resEuler = Euler::from(Matrix3::from(e));
-
-    check(abs(e.Pitch - resEuler.Pitch) < EPSILON, "Euler Conversion X");
-    check(abs(e.Yaw - resEuler.Yaw) < EPSILON, "Euler Conversion Y");
-    check(abs(e.Roll - resEuler.Roll) < EPSILON, "Euler Conversion Z");
     
     Matrix3 m = Matrix3::rotationY(30);
     Matrix3 resMat = Matrix3::from(AxisAngle::from(m));
