@@ -19,7 +19,7 @@ using std::endl;
 
 using Scalar = double;
 
-const Scalar EPSILON = std::numeric_limits<Scalar>::epsilon();
+const Scalar EPSILON = 0.00001; //TOO SMALL std::numeric_limits<Scalar>::epsilon();
 const Scalar EPSILON2 = EPSILON * EPSILON;
 
 inline Scalar DegToRad(Scalar deg)

@@ -9,10 +9,10 @@
 #include "euler.h"
 
 // The BIG CHOICE:
-//typedef Quaternion Rotation;
+typedef Quaternion Rotation;
 //typedef AxisAngle Rotation;
 //typedef Matrix3 Rotation;
-typedef Euler Rotation;
+//typedef Euler Rotation;
 
 class Transform
 {
@@ -53,22 +53,19 @@ public:
 	void fillDirectXMatrix(Scalar d[]);
 
 	// places this transform in the given origin, looking (Z-axis) toward target, given the up vector
-	void place(Point3 origin, Point3 target, Versor3 up);
+	void place(Point3 inputPoint, Point3 target, Versor3 up);
 
 	void printf() const; // TODO
 };
 
 inline Transform lerp(const Transform& a, const Transform& b, float t) {
 	// TODO: T-lerp
-	// return (1-t)*a + t*b;
-	
-	//ALERT : we've seen this is not the right way to do this
 
-	/*Transform res;
+	Transform res;
 	res.scale = ((1 - t) * a.scale) + t * b.scale;
 	res.rotation = lerp(a.rotation, b.rotation, t);
 	res.translation = lerp(a.translation, b.translation, t);
 
-	return res;*/
+	return res;
 }
 

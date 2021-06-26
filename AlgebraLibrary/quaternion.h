@@ -28,7 +28,6 @@ public:
 	// returns a quaternion encoding a point
     Quaternion(const Point3& p);
    
-   
     Vector3 apply(Vector3  v) const;
 
     // Rotations can be applied to versors or vectors just as well
@@ -51,6 +50,7 @@ public:
     Quaternion operator * (const Quaternion& r) const;
     Quaternion operator * (Scalar scalar) const;
 
+    Quaternion operator-() const;
     Quaternion inverse() const;
 
     void invert();
@@ -97,12 +97,20 @@ inline Quaternion normalize(const Quaternion& q)
 	return Quaternion(q.v / norm, q.w / norm);
 }
 
+inline Scalar dot(const Quaternion& a, const Quaternion& b) {
+	return dot(a.v, b.v) + a.w * b.w;
+}
 // interpolation or roations
 inline Quaternion lerp( const Quaternion& a,const Quaternion& b, Scalar t){
     // TODO Q-Lerp: how to interpolate quaternions
     // hints: shortest path! Also, consdider them are 4D unit vectors.
-    //TODO : check which -q or q is the closest one
-    Quaternion res = (a * (1 - t)) + (b * t);
+    
+    //1 dot(a, b) > dot(a, -b) sono simili tra di loro? a simile a b oppure più simile a -b
+    //2 dot(a, b) > -dot(a, b) refactor
+    //3 2 * dot(a, b) > 0 -> porto tutto a sinistra
+    //4 dot(a, b) > 0 -> a e b sono concordi, tra di loro vi è un angolo acuto
+
+    Quaternion res = a * (1 - t) + ((dot(a, b) > 0) ? b : -b) * t;
     return normalize(res);
 }
 

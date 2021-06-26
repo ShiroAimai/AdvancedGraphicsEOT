@@ -82,6 +82,7 @@ Matrix3 Matrix3::operator * (const Matrix3& r) const {
 	res.x.z = x.z * r.x.z + y.z * r.x.y + z.z * r.x.z;
 	res.y.z = x.z * r.y.z + y.z * r.y.y + z.z * r.y.z;
 	res.z.z = x.z * r.z.z + y.z * r.z.y + z.z * r.z.z;
+
 	return res;
 }
 

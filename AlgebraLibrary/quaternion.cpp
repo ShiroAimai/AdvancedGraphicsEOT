@@ -88,6 +88,11 @@ Quaternion Quaternion::operator * (const Quaternion& r) const {
 	return Quaternion(v_res, w_res);
 }
 
+Quaternion Quaternion::operator-() const
+{
+	return Quaternion(-v, -w);
+}
+
 Quaternion Quaternion::operator*(Scalar scalar) const
 {
 	Quaternion res(*this);

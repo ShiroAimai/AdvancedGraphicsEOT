@@ -53,7 +53,7 @@ Transform Transform::operator * (const Transform& b) {
     Transform result;
     result.scale = scale * b.scale;
     result.rotation = rotation * b.rotation;
-    result.translation = b.translation * scale + translation;
+    result.translation = rotation.apply(b.translation * scale) + translation;
     return result;
 }
 
@@ -64,10 +64,10 @@ void Transform::fillDirectXMatrix(Scalar d[]) {
 }
 
 // places this transform in the given origin, looking (Z-axis) toward target, given the up vector
-void Transform::place(Point3 origin, Point3 target, Versor3 up) {
+void Transform::place(Point3 inputPoint, Point3 target, Versor3 up) {
     // TODO: use methods
-    translation = origin.asVector();
-    rotation = Rotation::lookAt(origin, target, up);
+    translation = inputPoint.asVector();
+    rotation = Rotation::lookAt(inputPoint, target, up);
 }
 
 void Transform::printf() const // TODO
